@@ -13,10 +13,11 @@ typedef enum {
    INTERFACE_FIM_FALHA = 8,
    PARAM_APOSTA_INVALIDO = 9,
    PARAM_CONTINUAR_INVALIDO = 10,
-   FALHA_TERMINAR = 11
+   FALHA_TERMINAR = 11,
+   PARAM_RESUME_INVALIDO = 12
 } fim_cond_ret;
 
-fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar);
+fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume);
 /*
 Objetivo:
 Determinar o resultado da partida, alterando o dinheiro do usuário
@@ -41,6 +42,7 @@ Acoplamento:
  - Parâmetros:
    aposta: inteiro com a aposta da rodada para adicionar ao jogador.
    deseja_continuar: inteiro onde será armazenada a escolha de continuar do usuário.
+   resume: inteiro que define se há como continuar o jogo ou se foi game over.
 
  - Retornos:
    0 caso o processo de encerrar a rodada tenha ocorrido com sucesso;
@@ -55,11 +57,13 @@ Acoplamento:
    9 caso o parâmetro de aposta seja inválido;
    10 caso o parâmetro de deseja_continuar seja inválido;
    11 caso a rodada continue após a função Game_Over;
+   12 caso o parâmetro resume seja inválido
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
    1. A aposta deve ser um valor inteiro positivo maior que 0.
    2. O ponteiro deseja_continuar deve ser não nulo.
+   3. O ponteiro resume deve ser não nulo.
 
  - Assertivas de Saída:
    1. O dinheiro do jogador foi alterado corretamente conforme o resultado da rodada.
@@ -231,13 +235,14 @@ typedef enum {
    INICIA_JOGO_OK = 0,
    INICIA_JOGADOR_FALHA = 1,
    INICIA_BARALHO_FALHA = 2,
-   PARAM_RESUME_INVALIDO = 3
+   PARAM_RESUME_INVALIDO = 3,
+   PARAM_APOSTA_INVALIDO = 4
 } iniciajogo_cond_ret;
 
-iniciajogo_cond_ret inicia_jogo(int* resume);
+iniciajogo_cond_ret inicia_jogo(int* resume, int* aposta);
 /*
 Objetivo:
-Função responsável por inicializar os jogadores e o baralho com os 
+Função responsável por inicializar os jogadores, a aposta e o baralho com os 
 valores iniciais ou do jogo anterior. 
 
 Descrição:
@@ -248,16 +253,19 @@ Descrição:
 Acoplamento:
  - Parâmetros:
    resume: inteiro que define se existe partida anterior para ser retomada;
+   aposta: inteiro que define a aposta da partida;
 
  - Retornos:
    0 caso o jogo tenha sido iniciado com sucesso;
    1 caso a função chamada Inicializa_Jogador não funcione corretamente;
    2 caso a função chamada Inicializa_Baralho não funcione corretamente;
    3 caso o parâmetro resume seja inválido;
+   4 caso o parâmetro aposta seja inválido;
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
    1. O ponteiro resume deve ser não nulo.
+   2. O ponteiro aposta deve ser não nulo.
 
  - Assertivas de Saída:
    1. Jogadores inicializados com os dados padrão ou anteriores (dinheiro, cartas).
@@ -317,10 +325,12 @@ Condições de Acoplamento:
 
 typedef enum {
    FECHA_JOGO_OK = 0,
-   DADOS_NAO_SALVOS = 1
+   DADOS_NAO_SALVOS = 1,
+   PARAM_APOSTA_INVALIDO = 2,
+   PARAM_RESUME_INVALIDO = 3
 } fecha_cond_ret;
 
-fecha_cond_ret fecha_jogo(void);
+fecha_cond_ret fecha_jogo(int aposta, int resume);
 /*
 Objetivo:
 Função responsável por salvar os dados em um arquivo.
@@ -330,15 +340,19 @@ Descrição:
 
 Acoplamento:
  - Parâmetros:
-   nenhum: a função apenas salvará os dados atuais e fechara o jogo;
+   aposta: inteiro que representa a aposta da rodada a ser salva;
+   resume: inteiro que define se deve salvar a rodada ou não;
 
  - Retornos:
    0 caso o jogo tenha sido salvo e fechado corretamente.
    1 caso os dados não tenham sido salvos corretamente.
+   2 caso o parâmetro aposta seja inválido.
+   3 caso o parâmetro resume seja inválido.
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
-   Nenhuma
+   1. Aposta deve ser um inteiro.
+   2. Resume deve ser um inteiro 0 ou 1. 
 
  - Assertivas de Saída:
    1. Os dados de jogador foram salvos corretamente no arquivo.
