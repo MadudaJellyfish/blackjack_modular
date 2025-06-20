@@ -96,7 +96,7 @@ Condições de acoplamento:
     - As informações do jogador solicitado são preenchidas corretamente na estrutura apontada por 'jogador', e a função retorna o status da operação.
 */
 
-int ler_jogador(int tipo_jogador, Jogador jogador);
+int ler_jogador(int tipo_jogador, Jogador* jogador);
 
 enum adic_return_types 
 {
@@ -255,7 +255,6 @@ int altera_dinheiro(int valor);
 enum inicializa_return_types 
 {
     JOGADORES_INIC_CORR = 1,
-    JOGADORES_INIC_INCORR,
     JOGADOR_N_INIC,
 
 } inicializa_returns;
