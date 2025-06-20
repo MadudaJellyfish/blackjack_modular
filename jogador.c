@@ -11,7 +11,7 @@ struct jogador
 };
 
 
-int inicializa_jogador(Jogador* v_jogadores)
+inicializa_returns inicializa_jogador(Jogador* v_jogadores)
 {
     if (v_jogadores == NULL)
         return JOGADOR_N_INIC;
@@ -31,7 +31,7 @@ int inicializa_jogador(Jogador* v_jogadores)
     return JOGADORES_INIC_CORR;
 }
 
-int calcula_pontuacao(int tipo_jogador, int* valor)
+calc_returns calcula_pontuacao(int tipo_jogador, int* valor)
 {
     if(valor == NULL)
         return VALOR_INVAL;

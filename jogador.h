@@ -3,9 +3,15 @@
 
 typedef struct jogador Jogador;
 
+struct espel_jogador
+{
+    Carta* v_mao[11]; // ponteiro para as cartas na mão do jogador, máximo de 11 cartas
+    int dinheiro_total; // Dinheiro do jogador
+}Espelho_Jogador;
+
 //todas a funções presentes aqui são funções de acesso para os clientes
 
-enum calc_return_types 
+typedef enum calc_return_types 
 {
     PONTUACAO_CORR = 1,
     PONTUACAO_INCORR,
@@ -54,9 +60,9 @@ Condições de aclopamento:
 */
 
 
-int calcula_pontuacao(int tipo_jogador, int* valor);
+calc_returns calcula_pontuacao(int tipo_jogador, int* valor);
 
-enum ler_return_types 
+typedef enum ler_return_types 
 {
     JOGADOR_CORR = 1,
     JOGADOR_INCORR,
@@ -96,9 +102,9 @@ Condições de acoplamento:
     - As informações do jogador solicitado são preenchidas corretamente na estrutura apontada por 'jogador', e a função retorna o status da operação.
 */
 
-int ler_jogador(int tipo_jogador, Jogador* jogador);
+ler_returns ler_jogador(int tipo_jogador, Jogador* jogador);
 
-enum adic_return_types 
+typedef enum adic_return_types 
 {
     CARTA_ADIC_CORR = 1,
     RETIRA_CARTAS_INCORR,
@@ -141,9 +147,9 @@ Condições de acoplamento:
 */
 
 
-int adiciona_carta(int qtd_cartas, int tipo_jogador);
+adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador);
 
-enum limpa_return_types 
+typedef enum limpa_return_types 
 {
     CARTA_REMOV_CORR = 1,
     CARTA_REMOV_INCORR,
@@ -178,9 +184,9 @@ Condições de acoplamento:
     - A mão do jogador especificado é esvaziada corretamente, e a função retorna o status da operação.
 */
 
-int limpa_mao(int tipo_jogador);
+limpa_returns limpa_mao(int tipo_jogador);
 
-enum revela_return_types 
+typedef enum revela_return_types 
 {
     CARTAS_REVEL_CORR = 1,
     CARTAS_REVEL_INCORR,
@@ -214,9 +220,9 @@ Condições de acoplamento:
     - O estado de revelação das cartas do jogador é definido corretamente, e a função retorna o status da operação.
 */
 
-int revela_cartas(int tipo_jogador);
+revela_returns revela_cartas(int tipo_jogador);
 
-enum altera_return_types 
+typedef enum altera_return_types 
 {
     DINHEIRO_ALT_CORR = 1,
     DINHEIRO_ALT_INCORR,
@@ -250,9 +256,9 @@ Condições de acoplamento:
     - O dinheiro do jogador é atualizado corretamente de acordo com o 'valor' fornecido, e o status da operação é retornado.
 */
 
-int altera_dinheiro(int valor);
+altera_returns altera_dinheiro(int valor);
 
-enum inicializa_return_types 
+typedef enum inicializa_return_types 
 {
     JOGADORES_INIC_CORR = 1,
     JOGADOR_N_INIC,
@@ -287,7 +293,7 @@ Condições de acoplamento:
     - Os jogadores são inicializados corretamente e o módulo cliente recebe o espelho das estrutura de dados do dealer e do usuário
 */
 
-int inicializa_jogador(Jogador* v_jogadores);
+inicializa_returns inicializa_jogador(Jogador* v_jogadores);
 
 #endif 
 
