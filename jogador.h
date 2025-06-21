@@ -7,7 +7,9 @@ struct espel_jogador
 {
     Carta* v_mao[11]; // ponteiro para as cartas na mão do jogador, máximo de 11 cartas
     int dinheiro_total; // Dinheiro do jogador
-}Espelho_Jogador;
+};
+
+typedef struct espel_jogador Espelho_Jogador;
 
 //todas a funções presentes aqui são funções de acesso para os clientes
 
@@ -293,7 +295,7 @@ Condições de acoplamento:
     - Os jogadores são inicializados corretamente e o módulo cliente recebe o espelho das estrutura de dados do dealer e do usuário
 */
 
-inicializa_returns inicializa_jogador(Jogador* v_jogadores);
+inicializa_returns inicializa_jogador(Espelho_Jogador* player, Espelho_Jogador* dealer);
 
 #endif 
 

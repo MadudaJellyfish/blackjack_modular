@@ -14,25 +14,34 @@ struct jogador
 Jogador* v_true_jogadores = NULL; // Vetor de jogadores, deve ser inicializado antes de usar
 
 
-inicializa_returns inicializa_jogador(Jogador* v_jogadores)
+inicializa_returns inicializa_jogador(Espelho_Jogador* player, Espelho_Jogador* dealer)
 {
-    if (v_jogadores == NULL)
+    if (player == NULL || dealer == NULL)
         return JOGADOR_N_INIC;
 
     // Inicializa o jogador usuário
-    v_jogadores[0].tipo = 0; // Usuário
-    v_jogadores[0].dinheiro_total = 2500; // Dinheiro inicial do usuário
+    v_true_jogadores[0].tipo = 0; // Usuário
+    v_true_jogadores[0].dinheiro_total = 2500; // Dinheiro inicial do usuário
 
     for (int i = 0; i < 11; i++)
-        v_jogadores[0].v_mao[i] = NULL; // Mão do usuário vazia
+    {
+        v_true_jogadores[0].v_mao[i] = NULL; // Mão do usuário vazia
+        player->v_mao[i] = NULL;
 
+    }
+      
     // Inicializa o jogador dealer
-    v_jogadores[1].tipo = 1; // Dealer
-    v_jogadores[1].dinheiro_total = 0; // Dealer não começa com dinheiro
-    for (int i = 0; i < 11; i++)
-        v_jogadores[1].v_mao[i] = NULL; // Mão do dealer vazia
+    v_true_jogadores[1].tipo = 1; // Dealer
+    v_true_jogadores[1].dinheiro_total = 0; // Dealer não começa com dinheiro
 
-    v_true_jogadores = v_jogadores; // Esse aqui é o vetor de jogadores que pertence ao módulo Jogador. Os clientes só acessam os espelho dele
+    for (int i = 0; i < 11; i++)
+    {
+        v_true_jogadores[1].v_mao[i] = NULL; // Mão do dealer vazia
+        dealer->v_mao[i] = NULL;
+    }
+        
+    player->dinheiro_total = v_true_jogadores[0].dinheiro_total;
+    dealer->dinheiro_total = v_true_jogadores[1].dinheiro_total; // Dealer não tem dinheiro inicial
 
     return JOGADORES_INIC_CORR;
 }
@@ -42,14 +51,14 @@ calc_returns calcula_pontuacao(int tipo_jogador, int* valor)
     if(valor == NULL)
         return VALOR_INVAL;
 
-    if(tipo_jogador != 0 || tipo_jogador != 1)
+    if(tipo_jogador != 0 && tipo_jogador != 1)
         return TIPO_INVAL;
     
     int pontuacao = 0;
     int num_ases = 0;
 
     Jogador* jogador = NULL; // Aqui você deve obter o jogador correto baseado no tipo_jogador
-    ler_jogador(tipo_jogador, jogador);
+    jogador = &v_true_jogadores[tipo_jogador];
 
     for (int i = 0; i < 11; i++)
     {
@@ -108,11 +117,17 @@ adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador)
         return JOGADOR_INIC_INCORR;
 
     Jogador* jogador = NULL; // Aqui você deve obter o jogador correto baseado no tipo_jogador
-    ler_jogador(tipo_jogador, jogador);
+    jogador = &v_true_jogadores[tipo_jogador];
 
-    int ret = retirar_cartas(jogador->v_mao, 1); //função a ser definida no módulo Baralho
+    Carta* v_aux_cartas[11];
+
+    int ret = retirar_cartas(v_aux_cartas, qtd_cartas); //função a ser definida no módulo Baralho
     if(ret != 0)
         return RETIRA_CARTAS_INCORR;
+
+    for (int i = 0; i < qtd_cartas; i++) {
+        jogador->v_mao[i] = v_aux_cartas[i];
+    }
 
     return CARTA_ADIC_CORR;
 }
@@ -123,7 +138,7 @@ limpa_returns limpa_mao(int tipo_jogador)
         return TIPO_JOGADOR_INVAL;
 
     Jogador* jogador = NULL; 
-    ler_jogador(tipo_jogador, jogador);
+    jogador = &v_true_jogadores[tipo_jogador];
 
     for (int i = 0; i < 11; i++)
     {
@@ -143,7 +158,7 @@ revela_returns revela_cartas(int tipo_jogador)
         return JOGADOR_INVAL;
 
     Jogador* jogador = NULL; 
-    ler_jogador(tipo_jogador, jogador);
+    jogador = &v_true_jogadores[tipo_jogador];
 
     for (int i = 0; i < 11; i++)
     {
