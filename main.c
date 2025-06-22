@@ -5,7 +5,7 @@
 int main(void) {
     int resume;
     int escolha_menu;
-    int continuar = 1;
+    int continuar;
     int aposta;
     int voltar_menu;
 
@@ -18,9 +18,10 @@ int main(void) {
             fecha_jogo(aposta, resume);
             libera_jogador();
             libera_baralho();
-            exit(1);
+            break;
         }
 
+        continuar = 1;
         while(continuar){
             if(escolha_menu == 0) 
                 inicia_rodada(&aposta); // usuário escolheu novo jogo
@@ -36,7 +37,5 @@ int main(void) {
         }
     }
     
-
-
   return 0;
 }
