@@ -14,16 +14,17 @@ typedef enum {
    FIM_PARAM_APOSTA_INVALIDO = 9,
    FIM_PARAM_CONTINUAR_INVALIDO = 10,
    FIM_FALHA_TERMINAR = 11,
-   FIM_PARAM_RESUME_INVALIDO = 12
+   FIM_PARAM_RESUME_INVALIDO = 12,
+   FIM_INICIALIZA_JOGADOR_FALHA = 13
 } fim_cond_ret;
 
 fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume);
 /*
 Objetivo:
 Determinar o resultado da partida, alterando o dinheiro do usuário
-como necessário. Caso o dinheiro seja 0, exibirá uma tela de 
-game over, e, caso o jogador decida parar, o encaminhará para o menu principal.
-Caso o baralho esteja com 20 ou menos cartas, ele retorna ao estado inicial e é embaralhado.
+como necessário. Caso o dinheiro seja 0, exibirá uma tela de game over,
+e o encaminhará para o menu principal. Caso o baralho esteja com 20 ou 
+menos cartas, ele retorna ao estado inicial e é embaralhado.
 
 Descrição:
 1. A vitória do jogador-usuário é validada seguindo as seguinte regra:
