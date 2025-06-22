@@ -16,11 +16,14 @@ int main(void) {
 
         if(escolha_menu == 2){ // usuário escolheu sair
             fecha_jogo(aposta, resume);
+            libera_jogador();
+            libera_baralho();
             exit(1);
         }
 
         while(continuar){
-            if(escolha_menu == 0) inicia_rodada(&aposta); // usuário escolheu novo jogo
+            if(escolha_menu == 0) 
+                inicia_rodada(&aposta); // usuário escolheu novo jogo
 
             turno_usuario(aposta, &voltar_menu);
             if(voltar_menu == 1) { // usuário escolheu voltar ao menu
