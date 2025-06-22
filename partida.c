@@ -6,6 +6,7 @@
 #include "interface.h"
 #include "cJSON/cJSON.h"
 
+int verifica_vencedor(void);
 int parse_naipe(const char *str);
 int parse_valor(const char *str);
 const char* naipe_to_string(int naipe);
@@ -123,19 +124,6 @@ iniciajogo_cond_ret inicia_jogo(int* resume, int* aposta){
         // Libera recursos alocados
         cJSON_Delete(root);
         free(json_buffer);
-        
-        for (int i = 0; i < 11; i++){
-            if(jogadores[0].v_mao[i])
-                free(jogadores[0].v_mao[i]);
-
-            if(jogadores[1].v_mao[i])
-                free(jogadores[1].v_mao[i]);
-        }
-
-        for (int i = 0; i < 52; i++){
-            if(cartas[i])
-                free(cartas[i]);
-        }
     }
 
     fclose(file);
@@ -305,19 +293,6 @@ fecha_cond_ret fecha_jogo(int aposta, int resume){
     free(json_string);
     cJSON_Delete(root);
 
-    for (int i = 0; i < 11; i++){
-            if(jogadores[0].v_mao[i])
-                free(jogadores[0].v_mao[i]);
-
-            if(jogadores[1].v_mao[i])
-                free(jogadores[1].v_mao[i]);
-        }
-
-    for (int i = 0; i < 52; i++){
-        if(baralho[i])
-            free(baralho[i]);
-    }
-
     return FECHA_JOGO_OK;
 }
 
@@ -393,6 +368,142 @@ usuario_cond_ret turno_usuario(int aposta, int* voltar_menu){
     }
 
     return USUARIO_OK;
+}
+
+dealer_cond_ret turno_dealer(int aposta){
+    int pontuacao, jogada;
+
+    if (aposta < 0 || aposta > 999999) { // A aposta não pode ser negativa nem acima de 999999
+        return DEALER_PARAM_APOSTA_INVALIDO;
+    }
+
+    if (revela_cartas(1)) // Revela a segunda carta, virada para baixo
+            return DEALER_REVELA_CARTAS_FALHA;
+
+    while (1){
+        if (calcula_pontuacao(1, &pontuacao))
+            return DEALER_CALCULA_PONTUACAO_FALHA;
+
+        if (pontuacao >= 17) // Por regra, o dealer escolhe stand ao chegar em 17
+            break;
+
+        if (interface_rodada(aposta, &jogada, 1)) // Demonstra a jogada do dealer
+            return DEALER_INTERFACE_RODADA_FALHA;
+
+        if(adiciona_carta(1, 1))
+            return DEALER_ADICIONA_CARTA_FALHA;
+        if (revela_cartas(1))
+            return DEALER_REVELA_CARTAS_FALHA;
+    }
+
+    return DEALER_OK;
+}
+
+fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume){
+    int resultado;
+    Espelho_Jogador jogadores[2];
+
+    if (aposta < 0 || aposta > 999999) // A aposta não pode ser negativa nem acima de 999999
+        return FIM_PARAM_APOSTA_INVALIDO;
+
+    if (!deseja_continuar)
+        return FIM_PARAM_CONTINUAR_INVALIDO;
+
+    if (!resume)
+        return FIM_PARAM_RESUME_INVALIDO;
+
+    resultado  = verifica_vencedor();
+    if (resultado == 4)
+        return FIM_VERIFICA_VENCEDOR_FALHA;
+    
+    switch (resultado){
+        case 1: // Caso o dealer ganhe
+            aposta = 0;
+            break;
+        case 2: // Caso o usuário ganhe
+            aposta = aposta * 2;
+            break;
+        case 3: // Caso o usuário ganhe um 21 pontos
+            aposta = aposta * 2.5;    
+    }
+
+    if (altera_dinheiro(aposta)) // Soma o dinheiro da rodada ao total do usuário
+        return FIM_ALTERA_DINHEIRO_FALHA;
+
+    if (ler_jogador(0, &jogadores[0]))
+        return FIM_LER_JOGADOR_FALHA;
+
+    if (jogadores[0].dinheiro_total == 0){ // Game Over caso o dinheiro do usuário acabe
+        if (game_over())
+            return FIM_GAME_OVER_FALHA;
+
+        *deseja_continuar = 0;
+        *resume = 0;
+
+        jogadores[0].dinheiro_total = 2500;
+        jogadores[1].dinheiro_total = 0;
+
+        // Inicializa mãos dos jogadores como vazias
+        for (int i = 0; i < 11; i++) {
+            jogadores[0].v_mao[i] = NULL;
+            jogadores[1].v_mao[i] = NULL;
+        }
+
+        if (inicializa_jogador(jogadores))
+            return FIM_INICIALIZA_JOGADOR_FALHA;
+
+        // Inicializa o baralho vazio
+        if (inicializa_baralho(NULL))
+            return FIM_INICIALIZA_BARALHO_FALHA;
+
+        if (embaralha_cartas())
+            return FIM_EMBARALHA_CARTAS_FALHA;
+
+        return FIM_OK;
+    }
+
+    if (baralho_vazio()){ // Caso hajam 20 ou menos cartas no baralho
+        if (inicializa_baralho(NULL))
+            return FIM_INICIALIZA_BARALHO_FALHA;
+
+        if (embaralha_cartas())
+            return FIM_EMBARALHA_CARTAS_FALHA;
+    }
+
+    if (interface_fim(deseja_continuar)) // Pergunta se o usuário deseja continuar jogando ou ir para o menu principal
+        return FIM_INTERFACE_FIM_FALHA;
+
+    return FIM_OK;
+}
+
+int verifica_vencedor(void){
+    int pontuacao_dealer, pontuacao_usuario;
+
+    if (calcula_pontuacao(0, &pontuacao_usuario))
+        return 4;
+
+    if (calcula_pontuacao(1, &pontuacao_dealer))
+        return 4;
+
+    if ((pontuacao_dealer == pontuacao_usuario) || ((pontuacao_dealer > 21) && (pontuacao_usuario > 21))) // Empate caso a pontuação seja igual ou os 2 estourem
+        return 0;
+
+    if (pontuacao_usuario == 21) // Blackjack caso o usuário faça 21
+        return 3;
+
+    if (pontuacao_usuario > 21) // Dealer ganha se usuário passa de 21
+        return 1;
+
+    if (pontuacao_dealer > 21) // Usuário ganha se dealer passa de 21
+        return 2;
+
+    if (pontuacao_dealer > pontuacao_usuario) // Dealer ganha se a pontuação for maior que a do usuário
+        return 1;
+
+    if (pontuacao_usuario > pontuacao_dealer) // Usuário ganha se a pontuação for maior que a do dealer
+        return 2;    
+
+    return 4;
 }
 
 // Função auxiliar que converte uma string do JSON para um código de naipe (0 a 3)
