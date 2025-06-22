@@ -75,8 +75,38 @@ Casos Valorados:
     3. Chama e compra uma carta
     4. Escolhe stand
     5. Chama e escolhe voltar ao menu
-    6. Chama e compra até ter 21
-    7. Chama e compra até passar de 21
+    6. Chama e compra até ter 21 ou mais
+*/
+
+int teste_turno_dealer(void);
+/*
+Casos Abstratos:
+    1. Parâmetros inválidos
+    2. Chamar normalmente
+
+Casos Valorados:
+    1. Chama com parâmetros inválidos
+    2. Chama normalmente
+*/
+
+int teste_fim_de_rodada(void);
+/*
+Casos Abstratos:
+    1. Parâmetros inválidos
+    2. Usuário perde
+    3. Usuário ganha
+    4. Usuário ganha com blackjack
+    5. Baralho termina com 20 ou menos cartas
+    6. Usuário termina sem dinheiro
+
+Casos Valorados:
+    1 2 e 3. Chama com parâmetros inválidos
+    4. Chama com o dealer com pontuação que ganha do usuário
+    5. Chama com o dealer com pontuação que empata com o usuário
+    6. Chama com o usuário com pontuação que ganha do dealer
+    7. Chama com o usuário com pontuação de blackjack que ganha do dealer
+    8. Chama com o baralho iniciado com 20 cartas
+    9. Chama com o usuário perdendo e com 0 dinheiros
 */
 
 #endif
