@@ -3,18 +3,18 @@
 
 typedef enum {
    FIM_OK = 0,
-   VERIFICA_VENCEDOR_FALHA = 1,
-   ALTERA_DINHEIRO_FALHA = 2,
-   LER_JOGADOR_FALHA = 3,
-   GAME_OVER_FALHA = 4,
-   BARALHO_VAZIO_FALHA = 5,
-   INICIALIZA_BARALHO_FALHA = 6,
-   EMBARALHA_CARTAS_FALHA = 7,
-   INTERFACE_FIM_FALHA = 8,
-   PARAM_APOSTA_INVALIDO = 9,
-   PARAM_CONTINUAR_INVALIDO = 10,
-   FALHA_TERMINAR = 11,
-   PARAM_RESUME_INVALIDO = 12
+   FIM_VERIFICA_VENCEDOR_FALHA = 1,
+   FIM_ALTERA_DINHEIRO_FALHA = 2,
+   FIM_LER_JOGADOR_FALHA = 3,
+   FIM_GAME_OVER_FALHA = 4,
+   FIM_BARALHO_VAZIO_FALHA = 5,
+   FIM_INICIALIZA_BARALHO_FALHA = 6,
+   FIM_EMBARALHA_CARTAS_FALHA = 7,
+   FIM_INTERFACE_FIM_FALHA = 8,
+   FIM_PARAM_APOSTA_INVALIDO = 9,
+   FIM_PARAM_CONTINUAR_INVALIDO = 10,
+   FIM_FALHA_TERMINAR = 11,
+   FIM_PARAM_RESUME_INVALIDO = 12
 } fim_cond_ret;
 
 fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume);
@@ -74,12 +74,12 @@ Condições de Acoplamento:
 
 typedef enum {
    INICIA_OK = 0,
-   DEFINE_APOSTA_FALHA = 1,
-   ALTERA_DINHEIRO_FALHA = 2,
-   LIMPA_MAO_FALHA = 3,
-   ADICIONA_CARTA_FALHA = 4,
-   REVELA_CARTAS_FALHA = 5,
-   PARAM_APOSTA_INVALIDO = 6
+   INICIA_DEFINE_APOSTA_FALHA = 1,
+   INICIA_ALTERA_DINHEIRO_FALHA = 2,
+   INICIA_LIMPA_MAO_FALHA = 3,
+   INICIA_ADICIONA_CARTA_FALHA = 4,
+   INICIA_REVELA_CARTAS_FALHA = 5,
+   INICIA_PARAM_APOSTA_INVALIDO = 6
 } inicia_cond_ret;
 
 inicia_cond_ret inicia_rodada(int* aposta);
@@ -121,12 +121,12 @@ Condições de Acoplamento:
 
 typedef enum {
    DEALER_OK = 0,
-   REVELA_CARTAS_FALHA = 1,
-   CALCULA_PONTUACAO_FALHA = 2,
-   ADICIONA_CARTA_FALHA = 3,
-   COMPROU_COM_17 = 4,
-   INTERFACE_RODADA_FALHA = 5,
-   PARAM_APOSTA_INVALIDO = 6
+   DEALER_REVELA_CARTAS_FALHA = 1,
+   DEALER_CALCULA_PONTUACAO_FALHA = 2,
+   DEALER_ADICIONA_CARTA_FALHA = 3,
+   DEALER_COMPROU_COM_17 = 4,
+   DEALER_INTERFACE_RODADA_FALHA = 5,
+   DEALER_PARAM_APOSTA_INVALIDO = 6
 } dealer_cond_ret;
 
 dealer_cond_ret turno_dealer(int aposta);
@@ -176,13 +176,14 @@ Condições de Acoplamento:
 
 typedef enum {
    USUARIO_OK = 0,
-   CALCULA_PONTUACAO_FALHA = 1,
-   INTERFACE_RODADA_FALHA = 2,
-   ADICIONA_CARTA_FALHA = 3,
-   COMPRA_INVALIDA = 4,
-   STAND_FALHA = 5,
-   PARAM_APOSTA_INVALIDO = 6,
-   PARAM_VOLTAR_MENU_INVALIDO = 7
+   USUARIO_CALCULA_PONTUACAO_FALHA = 1,
+   USUARIO_INTERFACE_RODADA_FALHA = 2,
+   USUARIO_ADICIONA_CARTA_FALHA = 3,
+   USUARIO_COMPRA_INVALIDA = 4,
+   USUARIO_STAND_FALHA = 5,
+   USUARIO_PARAM_APOSTA_INVALIDO = 6,
+   USUARIO_PARAM_VOLTAR_MENU_INVALIDO = 7,
+   USUARIO_REVELA_CARTAS_FALHA = 8
 } usuario_cond_ret;
 
 usuario_cond_ret turno_usuario(int aposta, int* voltar_menu);
@@ -220,6 +221,7 @@ Acoplamento:
    5 caso a opção de Stand não funcione corretamente;
    6 caso o parâmetro aposta seja inválido;
    7 caso o parâmetro voltar_menu seja inválido;
+   8 caso a função Revela_Cartas não funcione corretamente;
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
@@ -233,10 +235,12 @@ Condições de Acoplamento:
 
 typedef enum {
    INICIA_JOGO_OK = 0,
-   INICIA_JOGADOR_FALHA = 1,
-   INICIA_BARALHO_FALHA = 2,
-   PARAM_RESUME_INVALIDO = 3,
-   PARAM_APOSTA_INVALIDO = 4
+   INICIA_JOGO_INICIA_JOGADOR_FALHA = 1,
+   INICIA_JOGO_INICIA_BARALHO_FALHA = 2,
+   INICIA_JOGO_PARAM_RESUME_INVALIDO = 3,
+   INICIA_JOGO_PARAM_APOSTA_INVALIDO = 4,
+   INICIA_JOGO_SEM_ARQUIVO = 5,
+   INICIA_JOGO_ARQUIVO_INVALIDO = 6
 } iniciajogo_cond_ret;
 
 iniciajogo_cond_ret inicia_jogo(int* resume, int* aposta);
@@ -261,11 +265,13 @@ Acoplamento:
    2 caso a função chamada Inicializa_Baralho não funcione corretamente;
    3 caso o parâmetro resume seja inválido;
    4 caso o parâmetro aposta seja inválido;
+   5 caso o arquivo do jogo anterior não exista;
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
    1. O ponteiro resume deve ser não nulo.
    2. O ponteiro aposta deve ser não nulo.
+   3. Existe um arquivo json com os dados da partida anterior (vazio caso primeira inicialização).
 
  - Assertivas de Saída:
    1. Jogadores inicializados com os dados padrão ou anteriores (dinheiro, cartas).
@@ -274,21 +280,20 @@ Condições de Acoplamento:
 
 typedef enum {
    CHAMA_MENU_OK = 0,
-   MENU_PRINCIPAL_FALHA = 1,
-   INICIA_BARALHO_FALHA = 2,
-   EMBARALHA_CARTAS_FALHA = 3,
-   INICIA_JOGADOR_FALHA = 4,
-   DADOS_ANTERIORES_FALTANTES = 5,
-   FECHA_JOGO_FALHA = 6,
-   PARAM_ESCOLHA_INVALIDO = 7,
-   PARAM_RESUME_INVALIDO = 8
+   CHAMA_MENU_MENU_PRINCIPAL_FALHA = 1,
+   CHAMA_MENU_INICIA_BARALHO_FALHA = 2,
+   CHAMA_MENU_EMBARALHA_CARTAS_FALHA = 3,
+   CHAMA_MENU_INICIA_JOGADOR_FALHA = 4,
+   CHAMA_MENU_DADOS_ANTERIORES_FALTANTES = 5,
+   CHAMA_MENU_PARAM_ESCOLHA_INVALIDO = 6,
+   CHAMA_MENU_PARAM_RESUME_INVALIDO = 7
 } menu_cond_ret;
 
 menu_cond_ret chama_menu(int* escolha, int resume);
 /*
 Objetivo:
-Função responsável por chamar o menu principal e, ou inicializar os dados default,
-ou continuar com os dados anteriores, ou fechar o jogo.
+Função responsável por chamar o menu principal e, ou inicializar os dados default
+ou continuar com os dados anteriores.
 
 Descrição:
 1. A aplicação utiliza no jogo um baralho de cartas do tipo convencional, seguindo o modelo Copag 139.
@@ -307,9 +312,8 @@ Acoplamento:
    3 caso a função Embaralha_Cartas não funcione corretamente.
    4 caso a função Inicializa_Jogador não funcione corretamente.
    5 caso o jogador tenha escolhido continuar partida e não foram encontrados dados anteriores.
-   6 caso a função Fecha_Jogo não funcione corretamente.
-   7 caso o parâmetro escolha seja inválido.
-   8 caso o parâmetro resume seja inválido.
+   6 caso o parâmetro escolha seja inválido.
+   7 caso o parâmetro resume seja inválido.
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
@@ -325,9 +329,11 @@ Condições de Acoplamento:
 
 typedef enum {
    FECHA_JOGO_OK = 0,
-   DADOS_NAO_SALVOS = 1,
-   PARAM_APOSTA_INVALIDO = 2,
-   PARAM_RESUME_INVALIDO = 3
+   FECHA_JOGO_DADOS_NAO_SALVOS = 1,
+   FECHA_JOGO_PARAM_APOSTA_INVALIDO = 2,
+   FECHA_JOGO_PARAM_RESUME_INVALIDO = 3,
+   FECHA_JOGO_LER_JOGADOR_FALHA = 4,
+   FECHA_JOGO_LER_BARALHO_FALHA = 5
 } fecha_cond_ret;
 
 fecha_cond_ret fecha_jogo(int aposta, int resume);
@@ -348,6 +354,8 @@ Acoplamento:
    1 caso os dados não tenham sido salvos corretamente.
    2 caso o parâmetro aposta seja inválido.
    3 caso o parâmetro resume seja inválido.
+   4 caso a função Ler_Jogador não funcione corretamente.
+   5 caso a função Ler_Baralho não funcione corretamente.
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
