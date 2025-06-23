@@ -261,7 +261,7 @@ int teste_turno_dealer(void){
 int teste_fim_de_rodada(void){
   int ret, aposta, deseja_continuar, resume;
   Espelho_Jogador jogadores[2], jogadorAux;
-  inicializa_baralho(NULL);
+  inicializa_baralho(NULL, 0);
 
   ret = fim_de_rodada(-3, &deseja_continuar, &resume);
   if (ret != FIM_PARAM_APOSTA_INVALIDO){
@@ -300,7 +300,7 @@ int teste_fim_de_rodada(void){
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
   if (ret != FIM_OK || jogadorAux.dinheiro_total != 2500){
-    printf("Erro no terceiro caso de fim_de_rodada!\n");
+    printf("Erro no quarto caso de fim_de_rodada!\n");
     return 0;
   }
 
@@ -314,7 +314,7 @@ int teste_fim_de_rodada(void){
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
   if (ret != FIM_OK || jogadorAux.dinheiro_total != 2550){
-    printf("Erro no quarto caso de fim_de_rodada!\n");
+    printf("Erro no quinto caso de fim_de_rodada!\n");
     return 0;
   }
 
@@ -328,7 +328,7 @@ int teste_fim_de_rodada(void){
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
   if (ret != FIM_OK || jogadorAux.dinheiro_total != 2600){
-    printf("Erro no quinto caso de fim_de_rodada!\n");
+    printf("Erro no sexto caso de fim_de_rodada!\n");
     return 0;
   }
 
@@ -342,7 +342,7 @@ int teste_fim_de_rodada(void){
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
   if (ret != FIM_OK || jogadorAux.dinheiro_total != 2625){
-    printf("Erro no sexto caso de fim_de_rodada!\n");
+    printf("Erro no sétimo caso de fim_de_rodada!\n");
     return 0;
   }
 
@@ -351,11 +351,11 @@ int teste_fim_de_rodada(void){
     baralho[i] = NULL;
 
   baralho[0] = jogadores[0].v_mao[2];
-  inicializa_baralho(baralho);
+  inicializa_baralho(baralho, 1);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);  
   if (ret != FIM_OK){
-    printf("Erro no sétimo caso de fim_de_rodada!\n");
+    printf("Erro no oitavo caso de fim_de_rodada!\n");
     return 0;
   }
 
@@ -370,7 +370,7 @@ int teste_fim_de_rodada(void){
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);  
   if (ret != FIM_OK){
-    printf("Erro no oitavo caso de fim_de_rodada!\n");
+    printf("Erro no nono caso de fim_de_rodada!\n");
     return 0;
   }
 
