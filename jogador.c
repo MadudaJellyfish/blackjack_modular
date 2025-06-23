@@ -91,7 +91,7 @@ calc_returns calcula_pontuacao(int tipo_jogador, int* valor)
 
     *valor = pontuacao;
 
-   return PONTU_CORR
+   return PONTUACAO_CORR 
     
 }
 
@@ -138,7 +138,7 @@ adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador)
 limpa_returns limpa_mao(int tipo_jogador)
 {
     if (tipo_jogador < 0 || tipo_jogador > 1)
-        return TIPO_JOGADOR_INVAL;
+        return LIMPA_TIPO_JOGADOR_INVAL;
 
     Jogador* jogador = NULL; 
     jogador = &v_true_jogadores[tipo_jogador];
@@ -152,13 +152,13 @@ limpa_returns limpa_mao(int tipo_jogador)
         }
     }
 
-    return CARTA_REMOV_CORR;
+    return LIMPA_CARTA_REMOV_CORR;
 }
 
 revela_returns revela_cartas(int tipo_jogador)
 {
     if (tipo_jogador < 0 || tipo_jogador > 1)
-        return JOGADOR_INVAL;
+        return REVELA_JOGADOR_INVAL;
 
     Jogador* jogador = NULL; 
     jogador = &v_true_jogadores[tipo_jogador];
@@ -171,7 +171,7 @@ revela_returns revela_cartas(int tipo_jogador)
         
     }
 
-    return CARTAS_REVEL_CORR;
+    return REVELA_CARTAS_REVEL_CORR;
 }
 
 altera_returns altera_dinheiro(int valor)
@@ -188,4 +188,10 @@ altera_returns altera_dinheiro(int valor)
         v_true_jogadores[0].dinheiro_total = 0; // Evita que o dinheiro fique negativo
 
     return ALTERA_DINHEIRO_ALT_CORR;
+}
+
+void remove_mem_jogadores()
+{
+   free(v_true_jogadores[0];
+   free(v_true_jogadores[1]);
 }
