@@ -109,4 +109,30 @@ Casos Valorados:
     9. Chama com o usuário perdendo e com 0 dinheiros
 */
 
+void teste_inicializa_jogadores(void);
+
+void teste_calcula_pontuacao(void);
+
+void teste_adiciona_carta(void);
+
+void teste_limpa_mao(void);
+
+void teste_revela_cartas(void);
+
+void teste_altera_dinheiro(void);
+
+///
+
+void teste_inicializa_baralho(void);
+
+void teste_obter_cartas_restantes(void);
+
+void teste_retira_cartas(void);
+
+void teste_embaralha_cartas(void);
+
+void teste_baralho_vazio(void);
+
+///
+
 #endif

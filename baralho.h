@@ -1,10 +1,5 @@
-
-
 #ifndef BARALHO_H
 #define BARALHO_H
-
-
-
 
 struct carta
 {

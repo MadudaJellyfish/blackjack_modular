@@ -2,9 +2,15 @@
 #include <stdlib.h>
 #include "partida.h"
 #include "jogador.h"
+#include "baralho.h"
+#include "interface.h"
 #include "teste_partida.h"
 
 int main(void) {
+
+  printf("[INICIANDO TESTE DA APLICAÇÃO]\n");
+  printf("====================================\n");
+  printf("Testando funções de partida...\n");
   teste_inicia_jogo();
   teste_chama_menu();
   teste_fecha_jogo();
@@ -12,6 +18,29 @@ int main(void) {
   teste_turno_usuario();
   teste_turno_dealer();
   teste_fim_de_rodada();
+  printf("Testes de partida concluídos com sucesso!\n");
+
+  printf("Testando funções de jogador...\n");
+  teste_inicializa_jogadores();
+  teste_calcula_pontuacao();
+  teste_adiciona_carta();
+  teste_limpa_mao();
+  teste_revela_cartas();
+  teste_altera_dinheiro();
+  printf("Testes de jogador concluídos com sucesso!\n");
+
+  printf("Testando funções de baralho...\n");
+  teste_inicializa_baralho();
+  teste_obter_cartas_restantes();
+  teste_retira_cartas();
+  teste_embaralha_cartas();
+  teste_baralho_vazio();
+  printf("Testes de baralho concluídos com sucesso!\n");
+
+
+
+  printf("====================================\n");
+
 
   return 0;
 }
@@ -295,7 +324,7 @@ int teste_fim_de_rodada(void){
   jogadores[1].v_mao[0]->valor_naipe = 1;
   jogadores[1].v_mao[0]->revelada = 1;
 
-  inicializa_jogador(jogadores);
+  inicializa_jogador(&jogadores[0], &jogadores[1]);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
@@ -309,7 +338,7 @@ int teste_fim_de_rodada(void){
   jogadores[0].v_mao[0]->valor_naipe = 1;
   jogadores[0].v_mao[0]->revelada = 1;
 
-  inicializa_jogador(jogadores);
+   inicializa_jogador(&jogadores[0], &jogadores[1]);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
@@ -323,7 +352,7 @@ int teste_fim_de_rodada(void){
   jogadores[0].v_mao[1]->valor_naipe = 5;
   jogadores[0].v_mao[1]->revelada = 1;
 
-  inicializa_jogador(jogadores);
+   inicializa_jogador(&jogadores[0], &jogadores[1]);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
@@ -337,7 +366,7 @@ int teste_fim_de_rodada(void){
   jogadores[0].v_mao[2]->valor_naipe = 5;
   jogadores[0].v_mao[2]->revelada = 1;
 
-  inicializa_jogador(jogadores);
+   inicializa_jogador(&jogadores[0], &jogadores[1]);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
@@ -366,7 +395,8 @@ int teste_fim_de_rodada(void){
   free(jogadores[0].v_mao[0]);
   jogadores[0].v_mao[0] = NULL;
   jogadores[0].dinheiro_total = 0;
-  inicializa_jogador(jogadores);
+  inicializa_jogador(&jogadores[0], &jogadores[1]);
+
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);  
   if (ret != FIM_OK){
@@ -378,4 +408,240 @@ int teste_fim_de_rodada(void){
 
   printf("Teste de fim_de_rodada OK!\n");
   return 0;
+}
+
+/////FUNÇÕES DE TESTE DO MÓDULO JOGADOR/////
+
+void teste_inicializa_jogador() {
+    printf("\n--- Testando inicializa_jogador ---\n");
+    Espelho_Jogador p, d;
+
+    inicializa_returns res = inicializa_jogador(&p, &d);
+    print_resultado("Inicializacao com sucesso\n", res == INICIA_JOGADORES_INIC_CORR);
+    print_resultado("Dinheiro inicial do jogador (2500)\n", p.dinheiro_total == 2500);
+    print_resultado("Dinheiro inicial do jogador (0)\n",d.dinheiro_total == 0);
+
+    res = inicializa_jogador(NULL, &d);
+    print_resultado("Falha com ponteiro do jogador nulo\n", res == INICIA_JOGADOR_N_INIC);
+}
+
+void teste_adiciona_carta() {
+    printf("\n--- Testando adiciona_carta ---\n");
+    Espelho_Jogador p, d;
+    inicializa_jogador(&p, &d);
+
+    // Teste 1: Adicionar 2 cartas com sucesso
+    adic_returns res = adiciona_carta(2, 0);
+    print_resultado("Adicionar 2 cartas com sucesso\n", res == ADIC_CARTA_ADIC_CORR);
+
+    // Teste 2: Falha ao adicionar quantidade invalida (3)
+    res = adiciona_carta(3, 0);
+    print_resultado("Falha com quantidade de cartas invalida (3)\n", res == ADIC_QTD_CARTAS_INV);
+    
+    // Teste 3: Falha ao adicionar para jogador invalido (2)
+    res = adiciona_carta(1, 2);
+    print_resultado("Falha com tipo de jogador invalido (2)\n", res == ADIC_JOGADOR_INVAL);
+  
+}
+
+void testar_calcula_pontuacao() {
+    printf("\n--- Testando calcula_pontuacao ---\n");
+    Espelho_Jogador p, d;
+    inicializa_jogador(&p, &d);
+    
+    int pontos;
+
+    // Teste 1: Falha com ponteiro de valor nulo
+    calc_returns res = calcula_pontuacao(0, NULL);
+    print_resultado("Falha com ponteiro de valor nulo\n", res == CALC_VALOR_INVAL);
+
+    // Teste 2: Falha com jogador invalido
+    res = calcula_pontuacao(3, &pontos);
+    print_resultado("Falha com jogador invalido (3)\n", res == CALC_JOGADOR_INVAL);
+    
+    // Teste 3: Pontuacao correta (0 para mao vazia)
+    res = calcula_pontuacao(0, &pontos);
+    print_resultado("Pontuacao de mao vazia e 0\n", res == PONTUACAO_CORR && pontos == 0);
+
+    // Teste 4: Pontuacao apos adicionar e revelar cartas
+    adiciona_carta(2, 0); 
+    revela_cartas(0);    
+    res = calcula_pontuacao(0, &pontos);
+    print_resultado("Pontuacao de duas cartas de 10 e 20\n", res == PONTUACAO_CORR && pontos == 20);
+}
+
+void testar_altera_dinheiro() {
+    printf("\n--- Testando altera_dinheiro ---\n");
+    Espelho_Jogador p, d;
+    inicializa_jogador(&p, &d);
+
+    // Teste 1: Adicionar dinheiro com sucesso
+    altera_returns res = altera_dinheiro(500); // 2500 + 500 = 3000
+    print_resultado("Adicionar 500 ao dinheiro\n", res == ALTERA_DINHEIRO_ALT_CORR);
+    
+    // Teste 2: Subtrair dinheiro com sucesso
+    res = altera_dinheiro(-1000); // 3000 - 1000 = 2000
+    print_resultado("Subtrair 1000 do dinheiro\n", res == ALTERA_DINHEIRO_ALT_CORR);
+
+    // Teste 3: Falha com valor invalido (muito alto)
+    res = altera_dinheiro(1000000);
+    print_resultado("Falha com valor invalido (1000000)\n", res == ALTERA_VALOR_INVAL);
+}
+
+void testar_revela_cartas() {
+    printf("\n--- Testando revela_cartas ---\n");
+    Espelho_Jogador p, d;
+    inicializa_jogador(&p, &d);
+
+    adiciona_carta(1, 0);
+    int pontos_antes, pontos_depois;
+    calcula_pontuacao(0, &pontos_antes); // Deve ser 0, carta nao revelada
+
+    // Teste 1: Sucesso ao revelar
+    revela_returns res = revela_cartas(0);
+    print_resultado("Revelar cartas com sucesso\n", res == CARTAS_REVEL_CORR);
+
+    calcula_pontuacao(0, &pontos_depois); // Deve ser 10 (valor da carta do mock)
+    print_resultado("Pontuacao aumenta apos revelar\n", pontos_antes == 0 && pontos_depois == 10);
+
+    // Teste 2: Falha com jogador invalido
+    res = revela_cartas(-1);
+    print_resultado("Falha ao revelar para jogador invalido\n", res == REVELA_JOGADOR_INVAL);
+}
+
+void testar_limpa_mao() {
+    printf("\n--- Testando limpa_mao ---\n");
+    Espelho_Jogador p, d;
+    inicializa_jogador(&p, &d);
+
+    adiciona_carta(2, 0);
+    revela_cartas(0);
+    int pontos_antes, pontos_depois;
+    calcula_pontuacao(0, &pontos_antes); // Deve ser 20
+
+    // Teste 1: Limpar mao com sucesso
+    limpa_returns res = limpa_mao(0);
+    print_resultado("Limpar mao funcionou\n", res == LIMPA_CARTA_REMOV_CORR);
+    
+    calcula_pontuacao(0, &pontos_depois); // Deve ser 0
+    print_resultado("Pontuacao e 0 apos limpar a mao\n", pontos_antes == 20 && pontos_depois == 0);
+
+    // Teste 2: Falha com jogador invalido
+    res = limpa_mao(5);
+    print_resultado("Falha ao limpar mao de jogador invalido\n", res == LIMPA_TIPO_JOGADOR_INVAL);
+}
+/////////
+
+
+///FUNÇÕES DE TESTE DO MÓDULO BARALHO///
+void testar_inicializa_baralho() {
+    printf("\n--- Testando inicializa_baralho ---\n");
+    int ret;
+
+    // Teste 1: Inicialização de um baralho novo (52 cartas)
+    ret = inicializa_baralho(NULL, 0);
+    print_resultado("Inicializacao de baralho novo ocorreu corretamente\n", ret == 0);
+}
+
+void testar_obter_cartas_restantes() {
+    printf("\n--- Testando obter_cartas_restantes ---\n");
+    Carta cartas[52];
+    int qtd;
+    int ret;
+
+    // Setup: Garante que o baralho está inicializado
+    inicializa_baralho(NULL, 0);
+
+    // Teste 1: Obter cartas com sucesso
+    ret = obter_cartas_restantes(cartas, &qtd);
+    print_resultado("Obter cartas com sucesso (retorno 0)\n", ret == 0);
+    print_resultado("Verifica se a quantidade retornada e 52\n", qtd == 52);
+
+    // Teste 2: Falha com ponteiro de cartas nulo
+    ret = obter_cartas_restantes(NULL, &qtd);
+    print_resultado("Falha com ponteiro de cartas nulo (retorno 1)\n", ret == 1);
+
+    // Teste 3: Falha com ponteiro de quantidade nulo
+    ret = obter_cartas_restantes(cartas, NULL);
+    print_resultado("Falha com ponteiro de quantidade nulo (retorno 1)\n", ret == 1);
+}
+
+
+void testar_retira_cartas() {
+    printf("\n--- Testando retira_cartas ---\n");
+    Carta mao[10];
+    int ret, qtd_antes, qtd_depois;
+    Carta baralho_estado[52];
+
+    inicializa_baralho(NULL, 0);
+    obter_cartas_restantes(baralho_estado, &qtd_antes); // qtd_antes = 52
+
+    // Teste 1: Retirar 5 cartas com sucesso
+    ret = retira_cartas(mao, 5);
+    print_resultado("Retirar 5 cartas com sucesso (retorno 0)\n", ret == 0);
+    obter_cartas_restantes(baralho_estado, &qtd_depois);
+    print_resultado("Verifica se o baralho tem 47 cartas apos retirada\n", qtd_depois == 47);
+
+    // Teste 2: Falha ao tentar retirar mais cartas do que existem
+    ret = retira_cartas(mao, 50); // Só existem 47
+    print_resultado("Falha ao retirar mais cartas que o disponivel (retorno 1)\n", ret == 1);
+
+    // Teste 3: Falha com quantidade inválida (< 0)
+    ret = retira_cartas(mao, -2);
+    print_resultado("Falha ao retirar quantidade negativa (retorno 3)\n", ret == 3);
+
+    // Teste 4: Falha com ponteiro de saída nulo
+    ret = retira_cartas(NULL, 2);
+    print_resultado("Falha com ponteiro de saida nulo (retorno 5)\n", ret == 5);
+
+    // Teste 5: Falha com baralho vazio
+    inicializa_baralho(baralho_estado, 0); // Força o baralho a ficar vazio
+    ret = retira_cartas(mao, 1);
+    print_resultado("Falha ao retirar de baralho vazio (retorno 4)\n", ret == 4);
+}
+
+void testar_embaralha_cartas() {
+    printf("\n--- Testando embaralha_cartas ---\n");
+    Carta antes[52], depois[52];
+    int qtd;
+
+    inicializa_baralho(NULL, 0);
+
+    obter_cartas_restantes(antes, &qtd);
+
+    // Teste 1: Embaralhar com sucesso
+    int ret = embaralha_cartas();
+    print_resultado("Embaralhar com sucesso (retorno 0)\n", ret == 0);
+
+    obter_cartas_restantes(depois, &qtd);
+
+    // Teste 2: Verifica se a ordem das cartas mudou
+    // memcmp compara duas áreas de memória. Se forem diferentes, o resultado não é 0.
+    int mudou_a_ordem = memcmp(antes, depois, sizeof(antes)) != 0;
+    print_resultado("Verifica se a ordem das cartas mudou\n", mudou_a_ordem);
+
+    // Teste 3: Falha ao embaralhar baralho vazio
+    inicializa_baralho(antes, 0); // Esvazia o baralho
+    ret = embaralha_cartas();
+    print_resultado("Falha ao embaralhar baralho vazio (retorno 2)\n", ret == 2);
+}
+
+void testar_baralho_vazio() {
+    printf("\n--- Testando baralho_vazio ---\n");
+    Carta mao[40];
+
+    // Teste 1: Baralho com mais de 20 cartas
+    inicializa_baralho(NULL, 0); // 52 cartas
+    int ret = baralho_vazio();
+    print_resultado("Baralho com 52 cartas nao esta vazio (retorno 0)\n", ret == 0);
+
+    // Teste 2: Baralho com exatamente 20 cartas (limite)
+    retira_cartas(mao, 32); // 52 - 32 = 20
+    ret = baralho_vazio();
+    print_resultado("Baralho com 20 cartas e considerado vazio (retorno 1)\n", ret == 1);
+    
+    // Teste 3: Baralho com menos de 20 cartas
+    retira_cartas(mao, 1); // 20 - 1 = 19
+    ret = baralho_vazio();
+    print_resultado("Baralho com 19 cartas e considerado vazio (retorno 1)\n", ret == 1);
 }
