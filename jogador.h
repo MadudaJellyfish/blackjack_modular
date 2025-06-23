@@ -13,13 +13,13 @@ typedef struct espel_jogador Espelho_Jogador;
 
 //todas a funções presentes aqui são funções de acesso para os clientes
 
-typedef enum calc_return_types 
+typedef enum 
 {
     PONTUACAO_CORR = 1,
     PONTUACAO_INCORR,
-    JOGADOR_INIC_INCORR,
-    VALOR_INVAL,
-    JOGADOR_INVAL,
+    CALC_JOGADOR_INIC_INCORR,
+    CALC_VALOR_INVAL,
+    CALC_JOGADOR_INVAL,
 
 
 } calc_returns;
@@ -64,13 +64,13 @@ Condições de aclopamento:
 
 calc_returns calcula_pontuacao(int tipo_jogador, int* valor);
 
-typedef enum ler_return_types 
+typedef enum
 {
-    JOGADOR_CORR = 1,
-    JOGADOR_INCORR,
-    JOGADOR_INIC_INCORR,
-    TIPO_INVAL,
-    JOGADOR_INVAL,
+    LER_JOGADOR_CORR = 1,
+    LER_JOGADOR_INCORR,
+    LER_JOGADOR_INIC_INCORR,
+    LER_TIPO_INVAL,
+    LER_JOGADOR_INVAL,
 
 
 } ler_returns;
@@ -106,13 +106,13 @@ Condições de acoplamento:
 
 ler_returns ler_jogador(int tipo_jogador, Jogador* jogador);
 
-typedef enum adic_return_types 
+typedef enum 
 {
-    CARTA_ADIC_CORR = 1,
-    RETIRA_CARTAS_INCORR,
-    QTD_CARTAS_INV,
-    JOGADOR_INIC_INCORR,
-    JOGADOR_INVAL,
+    ADIC_CARTA_ADIC_CORR = 1,
+    ADIC_RETIRA_CARTAS_INCORR,
+    ADIC_QTD_CARTAS_INV,
+    ADIC_JOGADOR_INIC_INCORR,
+    ADIC_JOGADOR_INVAL,
 
 
 } adic_returns;
@@ -151,11 +151,11 @@ Condições de acoplamento:
 
 adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador);
 
-typedef enum limpa_return_types 
+typedef enum
 {
-    CARTA_REMOV_CORR = 1,
-    CARTA_REMOV_INCORR,
-    TIPO_JOGADOR_INVAL,
+    LIMPA_CARTA_REMOV_CORR = 1,
+    LIMPA_CARTA_REMOV_INCORR,
+    LIMPA_TIPO_JOGADOR_INVAL,
 
 
 } limpa_returns;
@@ -188,11 +188,11 @@ Condições de acoplamento:
 
 limpa_returns limpa_mao(int tipo_jogador);
 
-typedef enum revela_return_types 
+typedef enum 
 {
     CARTAS_REVEL_CORR = 1,
     CARTAS_REVEL_INCORR,
-    JOGADOR_INVAL,
+    REVELA_JOGADOR_INVAL,
 
 } revela_returns;
 
@@ -224,11 +224,11 @@ Condições de acoplamento:
 
 revela_returns revela_cartas(int tipo_jogador);
 
-typedef enum altera_return_types 
+typedef enum
 {
-    DINHEIRO_ALT_CORR = 1,
-    DINHEIRO_ALT_INCORR,
-    VALOR_INVAL,
+    ALTERA_DINHEIRO_ALT_CORR = 1,
+    ALTERA_DINHEIRO_ALT_INCORR,
+    ALTERA_VALOR_INVAL,
 
 } altera_returns;
 
@@ -260,10 +260,10 @@ Condições de acoplamento:
 
 altera_returns altera_dinheiro(int valor);
 
-typedef enum inicializa_return_types 
+typedef enum 
 {
-    JOGADORES_INIC_CORR = 1,
-    JOGADOR_N_INIC,
+    INICIA_JOGADORES_INIC_CORR = 1,
+    INICIA_JOGADOR_N_INIC,
 
 } inicializa_returns;
 
