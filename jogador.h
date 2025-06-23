@@ -229,6 +229,7 @@ typedef enum
     ALTERA_DINHEIRO_ALT_CORR = 1,
     ALTERA_DINHEIRO_ALT_INCORR,
     ALTERA_VALOR_INVAL,
+    ALTERA_JOGADOR_INVAL,
 
 } altera_returns;
 
@@ -296,6 +297,8 @@ Condições de acoplamento:
 */
 
 inicializa_returns inicializa_jogador(Espelho_Jogador* player, Espelho_Jogador* dealer);
+
+void free_jogadores();
 
 #endif 
 

@@ -22,27 +22,22 @@ inicializa_returns inicializa_jogador(Espelho_Jogador* player, Espelho_Jogador* 
    v_true_jogadores = malloc(sizeof(Jogador)*2);
     // Inicializa o jogador usuário
     v_true_jogadores[0].tipo = 0; // Usuário
-    v_true_jogadores[0].dinheiro_total = 2500; // Dinheiro inicial do usuário
+    v_true_jogadores[0].dinheiro_total = player->dinheiro_total; // Dinheiro inicial do usuário
 
     for (int i = 0; i < 11; i++)
     {
-        v_true_jogadores[0].v_mao[i] = NULL; // Mão do usuário vazia
-        player->v_mao[i] = NULL;
+        v_true_jogadores[0].v_mao[i] = player->v_mao[i];
 
     }
       
     // Inicializa o jogador dealer
     v_true_jogadores[1].tipo = 1; // Dealer
-    v_true_jogadores[1].dinheiro_total = 0; // Dealer não começa com dinheiro
+    v_true_jogadores[1].dinheiro_total = dealer->dinheiro_total; // Dealer não começa com dinheiro
 
     for (int i = 0; i < 11; i++)
     {
-        v_true_jogadores[1].v_mao[i] = NULL; // Mão do dealer vazia
-        dealer->v_mao[i] = NULL;
+        v_true_jogadores[1].v_mao[i] = dealer->v_mao[i]; // Mão do dealer vazia
     }
-        
-    player->dinheiro_total = v_true_jogadores[0].dinheiro_total;
-    dealer->dinheiro_total = v_true_jogadores[1].dinheiro_total; // Dealer não tem dinheiro inicial
 
     return INICIA_JOGADORES_INIC_CORR;
 }
@@ -53,7 +48,7 @@ calc_returns calcula_pontuacao(int tipo_jogador, int* valor)
         return CALC_VALOR_INVAL;
 
     if(tipo_jogador != 0 && tipo_jogador != 1)
-        return CALC_TIPO_INVAL;
+        return CALC_JOGADOR_INVAL;
     
     int pontuacao = 0;
     int num_ases = 0;
@@ -91,11 +86,11 @@ calc_returns calcula_pontuacao(int tipo_jogador, int* valor)
 
     *valor = pontuacao;
 
-   return PONTUACAO_CORR 
+   return PONTUACAO_CORR ;
     
 }
 
-ler_returns ler_jogador(int tipo_jogador, Jogador* jogador)
+ler_returns ler_jogador(int tipo_jogador, Espelho_Jogador* jogador)
 {
     if (jogador == NULL)
         return LER_JOGADOR_INIC_INCORR;
@@ -103,10 +98,11 @@ ler_returns ler_jogador(int tipo_jogador, Jogador* jogador)
     if (tipo_jogador < 0 || tipo_jogador > 1)
         return LER_TIPO_INVAL;
 
-    jogador = &v_true_jogadores[tipo_jogador];
-
-    // Preencher os dados do jogador
-    jogador->tipo = tipo_jogador;
+    jogador->dinheiro_total = v_true_jogadores[tipo_jogador].dinheiro_total;
+    for (int i = 0; i < 11; i++)
+    {
+        jogador->v_mao[i] = v_true_jogadores[tipo_jogador].v_mao[i];
+    }
    
     return LER_JOGADOR_CORR;
 }
@@ -126,7 +122,7 @@ adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador)
 
     int ret = retirar_cartas(v_aux_cartas, qtd_cartas); //função a ser definida no módulo Baralho
     if(ret != 0)
-        return RETIRA_CARTAS_INCORR;
+        return ADIC_RETIRA_CARTAS_INCORR;
 
     for (int i = 0; i < qtd_cartas; i++) {
 
@@ -137,7 +133,7 @@ adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador)
         
     }
 
-    return CARTA_ADIC_CORR;
+    return ADIC_CARTA_ADIC_CORR;
 }
 
 limpa_returns limpa_mao(int tipo_jogador)
@@ -176,7 +172,7 @@ revela_returns revela_cartas(int tipo_jogador)
         
     }
 
-    return REVELA_CARTAS_REVEL_CORR;
+    return CARTAS_REVEL_INCORR;
 }
 
 altera_returns altera_dinheiro(int valor)
@@ -195,8 +191,17 @@ altera_returns altera_dinheiro(int valor)
     return ALTERA_DINHEIRO_ALT_CORR;
 }
 
-void remove_mem_jogadores()
+void free_jogadores()
 {
-   free(v_true_jogadores[0];
-   free(v_true_jogadores[1]);
+    if (v_true_jogadores == NULL)
+        return; // Se já estiver liberado, não faz nada
+
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 11; j++) {
+            if (v_true_jogadores[i].v_mao[j] != NULL) {
+                free(v_true_jogadores[i].v_mao[j]); // Libera cada carta na mão
+            }
+        }
+    }
+   free(v_true_jogadores);
 }
