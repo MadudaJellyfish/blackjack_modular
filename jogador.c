@@ -17,8 +17,9 @@ Jogador* v_true_jogadores = NULL; // Vetor de jogadores, deve ser inicializado a
 inicializa_returns inicializa_jogador(Espelho_Jogador* player, Espelho_Jogador* dealer)
 {
     if (player == NULL || dealer == NULL)
-        return JOGADOR_N_INIC;
+        return INICIA_JOGADOR_N_INIC;
 
+   v_true_jogadores = malloc(sizeof(Jogador)*2);
     // Inicializa o jogador usuário
     v_true_jogadores[0].tipo = 0; // Usuário
     v_true_jogadores[0].dinheiro_total = 2500; // Dinheiro inicial do usuário
@@ -43,16 +44,16 @@ inicializa_returns inicializa_jogador(Espelho_Jogador* player, Espelho_Jogador* 
     player->dinheiro_total = v_true_jogadores[0].dinheiro_total;
     dealer->dinheiro_total = v_true_jogadores[1].dinheiro_total; // Dealer não tem dinheiro inicial
 
-    return JOGADORES_INIC_CORR;
+    return INICIA_JOGADORES_INIC_CORR;
 }
 
 calc_returns calcula_pontuacao(int tipo_jogador, int* valor)
 {
     if(valor == NULL)
-        return VALOR_INVAL;
+        return CALC_VALOR_INVAL;
 
     if(tipo_jogador != 0 && tipo_jogador != 1)
-        return TIPO_INVAL;
+        return CALC_TIPO_INVAL;
     
     int pontuacao = 0;
     int num_ases = 0;
@@ -89,32 +90,34 @@ calc_returns calcula_pontuacao(int tipo_jogador, int* valor)
     }
 
     *valor = pontuacao;
+
+   return CALC_PONTUACAO_CORR
     
 }
 
 ler_returns ler_jogador(int tipo_jogador, Jogador* jogador)
 {
     if (jogador == NULL)
-        return JOGADOR_INIC_INCORR;
+        return LER_JOGADOR_INIC_INCORR;
 
     if (tipo_jogador < 0 || tipo_jogador > 1)
-        return TIPO_INVAL;
+        return LER_TIPO_INVAL;
 
     jogador = &v_true_jogadores[tipo_jogador];
 
     // Preencher os dados do jogador
     jogador->tipo = tipo_jogador;
    
-    return JOGADOR_CORR;
+    return LER_JOGADOR_CORR;
 }
 
 adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador)
 {
     if (qtd_cartas < 1 || qtd_cartas > 2)
-        return QTD_CARTAS_INV;
+        return ADIC_QTD_CARTAS_INV;
 
     if (tipo_jogador < 0 || tipo_jogador > 1)
-        return JOGADOR_INIC_INCORR;
+        return ADIC_JOGADOR_INIC_INCORR;
 
     Jogador* jogador = NULL; // Aqui você deve obter o jogador correto baseado no tipo_jogador
     jogador = &v_true_jogadores[tipo_jogador];
@@ -174,15 +177,15 @@ revela_returns revela_cartas(int tipo_jogador)
 altera_returns altera_dinheiro(int valor)
 {
     if (v_true_jogadores == NULL)
-        return JOGADOR_INVAL;
+        return ALTERA_JOGADOR_INVAL;
 
     if (valor > 999999)
-        return VALOR_INVAL;
+        return ALTERA_VALOR_INVAL;
 
     v_true_jogadores[0].dinheiro_total += valor; // Altera o dinheiro do usuário
 
     if (v_true_jogadores[0].dinheiro_total < 0)
         v_true_jogadores[0].dinheiro_total = 0; // Evita que o dinheiro fique negativo
 
-    return DINHEIRO_ALT_CORR;
+    return ALTERA_DINHEIRO_ALT_CORR;
 }
