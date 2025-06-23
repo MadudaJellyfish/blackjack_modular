@@ -16,6 +16,7 @@ iniciajogo_cond_ret inicia_jogo(int* resume, int* aposta){
     Espelho_Jogador jogadores[2]; // jogadores[0] = usuário, jogadores[1] = dealer
     
     Carta* cartas[52]; // vetor de ponteiros para representar o baralho
+    int qtd_cartas = 0;
 
     // Abre o arquivo JSON
     FILE* file = fopen("db.json", "r");
@@ -54,7 +55,7 @@ iniciajogo_cond_ret inicia_jogo(int* resume, int* aposta){
         *resume = 0;
 
         // Inicializa o baralho vazio
-        if (inicializa_baralho(NULL))
+        if (inicializa_baralho(NULL, 0))
             return INICIA_JOGO_INICIA_BARALHO_FALHA;
     }
     else {
@@ -83,6 +84,7 @@ iniciajogo_cond_ret inicia_jogo(int* resume, int* aposta){
                 cartas[i]->naipe = parse_naipe(cJSON_GetObjectItem(carta_json, "naipe")->valuestring);
                 cartas[i]->valor_naipe = parse_valor(cJSON_GetObjectItem(carta_json, "valor")->valuestring);
                 cartas[i]->revelada = cJSON_GetObjectItem(carta_json, "revelado")->valueint;
+                qtd_cartas++;
             } else {
                 cartas[i] = NULL;
             }
@@ -114,7 +116,7 @@ iniciajogo_cond_ret inicia_jogo(int* resume, int* aposta){
         if (inicializa_jogador(jogadores))
             return INICIA_JOGO_INICIA_JOGADOR_FALHA;
 
-        if (inicializa_baralho(cartas))
+        if (inicializa_baralho(cartas, qtd_cartas))
             return INICIA_JOGO_INICIA_BARALHO_FALHA;
 
         // Define a aposta e marca que foi retomado de um jogo salvo
@@ -159,7 +161,7 @@ menu_cond_ret chama_menu(int* escolha, int resume){
             return CHAMA_MENU_INICIA_JOGADOR_FALHA;
 
         // Inicializa o baralho vazio
-        if (inicializa_baralho(NULL))
+        if (inicializa_baralho(NULL, 0))
             return CHAMA_MENU_INICIA_BARALHO_FALHA;
 
         if (embaralha_cartas())
@@ -205,7 +207,7 @@ fecha_cond_ret fecha_jogo(int aposta, int resume){
     }
     cJSON_AddItemToObject(root, "baralho", baralho_json);
 
-    if (ler_baralho(baralho)){ // Recebe as cartas restantes no baralho
+    if (obter_cartas_restantes(baralho)){ // Recebe as cartas restantes no baralho
         return FECHA_JOGO_LER_BARALHO_FALHA;
     }
 
@@ -453,7 +455,7 @@ fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume){
             return FIM_INICIALIZA_JOGADOR_FALHA;
 
         // Inicializa o baralho vazio
-        if (inicializa_baralho(NULL))
+        if (inicializa_baralho(NULL, 0))
             return FIM_INICIALIZA_BARALHO_FALHA;
 
         if (embaralha_cartas())
@@ -463,7 +465,7 @@ fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume){
     }
 
     if (baralho_vazio()){ // Caso hajam 20 ou menos cartas no baralho
-        if (inicializa_baralho(NULL))
+        if (inicializa_baralho(NULL, 0))
             return FIM_INICIALIZA_BARALHO_FALHA;
 
         if (embaralha_cartas())
