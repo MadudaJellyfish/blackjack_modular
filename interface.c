@@ -3,6 +3,7 @@
 #include "interface.h"
 #include "jogador.h"
 
+
 void imprime_cartas(int tipo_jogador) {
     Espelho_Jogador* jogador;
     if (ler_jogador(tipo_jogador, &jogador) != LER_JOGADOR_CORR) return;
