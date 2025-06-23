@@ -91,7 +91,7 @@ calc_returns calcula_pontuacao(int tipo_jogador, int* valor)
 
     *valor = pontuacao;
 
-   return CALC_PONTUACAO_CORR
+   return PONTU_CORR
     
 }
 
