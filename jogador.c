@@ -129,7 +129,12 @@ adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador)
         return RETIRA_CARTAS_INCORR;
 
     for (int i = 0; i < qtd_cartas; i++) {
-        jogador->v_mao[i] = v_aux_cartas[i];
+
+       if(jogador->v_mao[i] == NULL)
+       {
+          jogador->v_mao[i] = v_aux_cartas[i];
+       }
+        
     }
 
     return CARTA_ADIC_CORR;
@@ -179,7 +184,7 @@ altera_returns altera_dinheiro(int valor)
     if (v_true_jogadores == NULL)
         return ALTERA_JOGADOR_INVAL;
 
-    if (valor > 999999)
+    if (valor > 99999)
         return ALTERA_VALOR_INVAL;
 
     v_true_jogadores[0].dinheiro_total += valor; // Altera o dinheiro do usuário
