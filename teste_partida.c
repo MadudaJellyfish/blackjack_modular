@@ -5,6 +5,7 @@
 #include "baralho.h"
 #include "interface.h"
 #include "teste_partida.h"
+#include <string.h>
 
 int main(void) {
 
@@ -411,6 +412,14 @@ int teste_fim_de_rodada(void){
 }
 
 /////FUNÇÕES DE TESTE DO MÓDULO JOGADOR/////
+
+void print_resultado(const char* nome_teste, int sucesso) {
+    if (sucesso) {
+        printf("PASSOU: %s", nome_teste);
+    } else {
+        printf("FALHOU: %s", nome_teste);
+    }
+}
 
 void teste_inicializa_jogador() {
     printf("\n--- Testando inicializa_jogador ---\n");

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "baralho.h"
 #include "jogador.h"
 
 struct jogador

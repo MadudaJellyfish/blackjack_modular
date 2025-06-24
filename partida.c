@@ -4,6 +4,7 @@
 #include "jogador.h"
 #include "partida.h"
 #include "interface.h"
+#include "baralho.h"
 #include "cJSON/cJSON.h"
 
 int verifica_vencedor(void);
@@ -48,7 +49,7 @@ iniciajogo_cond_ret inicia_jogo(int* resume, int* aposta){
             jogadores[1].v_mao[i] = NULL;
         }
 
-        if (inicializa_jogador(jogadores))
+        if (inicializa_jogador(&jogadores[0], &jogadores[1]))
             return INICIA_JOGO_INICIA_JOGADOR_FALHA;
 
         *aposta = 0;
@@ -113,7 +114,7 @@ iniciajogo_cond_ret inicia_jogo(int* resume, int* aposta){
             }
         }
         
-        if (inicializa_jogador(jogadores))
+        if (inicializa_jogador(&jogadores[0], &jogadores[1]))
             return INICIA_JOGO_INICIA_JOGADOR_FALHA;
 
         if (inicializa_baralho(cartas, qtd_cartas))
