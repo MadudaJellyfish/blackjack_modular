@@ -11,16 +11,8 @@ struct carta
 
 typedef struct carta Carta;
 
-struct baralho {
-    Carta v_cartas[52];
-    int qtd_cartas;
-};
 
-typedef struct baralho Baralho;
-
-
-
-int inicializa_baralho(Carta* cartas_salvas, int qtd_cartas);
+int inicializa_baralho(Carta* cartas_salvas[], int qtd_cartas);
 /*
 Objetivo:
     Inicializar o baralho, seja com um conjunto de 52 cartas novas ou a partir de um estado de jogo salvo.
@@ -49,7 +41,7 @@ Condicao de acoplamento:
     2. Se a funcao retornar 1 ou 2, o estado do baralho é considerado inválido.
 */
 
-int obter_cartas_restantes(Carta* v_cartas_saida, int* qtd_saida);
+int obter_cartas_restantes(Carta* v_cartas_saida[], int* qtd_saida);
 /*
 Objetivo:
     Obter o vetor de todas as cartas que ainda estao no baralho para permitir salvar o jogo.
@@ -80,7 +72,7 @@ Condicao de acoplamento:
 */
 
 
-int embaralha_carta(void);
+int embaralha_cartas(void);
 /*
 Objetivo:
     Randomizar a ordem das cartas contidas na estrutura baralho
@@ -107,7 +99,7 @@ Condicao de acoplamento:
     2. Se a funcao retornar 2 o baralho nao foi inicializado
  */
 
-int retira_cartas(Carta v_cartas[], int qtd_ditr);
+int retira_cartas(Carta* v_cartas[], int qtd_ditr);
 /*
 Objetivo:
     Retirar uma quantidade especifica de cartas do baralho para ser usada

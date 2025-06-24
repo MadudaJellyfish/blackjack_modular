@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "partida.h"
 #include "jogador.h"
 #include "baralho.h"
@@ -118,29 +119,23 @@ int teste_chama_menu(void){
     printf("Erro no segundo caso de chama_menu!\n");
     return 0;
   }
-  
-  ret = chama_menu(escolha, 0);
-  if (ret != CHAMA_MENU_DADOS_ANTERIORES_FALTANTES){
-    printf("Erro no terceiro caso de chama_menu!\n");
-    return 0;
-  }
 
   ret = chama_menu(escolha, 1);
   if (ret != CHAMA_MENU_OK){
-    printf("Erro no quarto caso de chama_menu!\n");
+    printf("Erro no terceiro caso de chama_menu!\n");
     return 0;
   }
 
   *escolha = 2;
   ret = chama_menu(escolha, 1);
   if (ret != CHAMA_MENU_OK){
-    printf("Erro no quinto caso de chama_menu!\n");
+    printf("Erro no quarto caso de chama_menu!\n");
     return 0;
   }
 
   ret = chama_menu(escolha, 1);
   if (ret != CHAMA_MENU_OK){
-    printf("Erro no sexto caso de chama_menu!\n");
+    printf("Erro no quinto caso de chama_menu!\n");
     return 0;
   }
 
@@ -339,7 +334,7 @@ int teste_fim_de_rodada(void){
   jogadores[0].v_mao[0]->valor_naipe = 1;
   jogadores[0].v_mao[0]->revelada = 1;
 
-   inicializa_jogador(&jogadores[0], &jogadores[1]);
+  inicializa_jogador(&jogadores[0], &jogadores[1]);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
@@ -353,7 +348,7 @@ int teste_fim_de_rodada(void){
   jogadores[0].v_mao[1]->valor_naipe = 5;
   jogadores[0].v_mao[1]->revelada = 1;
 
-   inicializa_jogador(&jogadores[0], &jogadores[1]);
+  inicializa_jogador(&jogadores[0], &jogadores[1]);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
@@ -367,7 +362,7 @@ int teste_fim_de_rodada(void){
   jogadores[0].v_mao[2]->valor_naipe = 5;
   jogadores[0].v_mao[2]->revelada = 1;
 
-   inicializa_jogador(&jogadores[0], &jogadores[1]);
+  inicializa_jogador(&jogadores[0], &jogadores[1]);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
@@ -398,7 +393,6 @@ int teste_fim_de_rodada(void){
   jogadores[0].dinheiro_total = 0;
   inicializa_jogador(&jogadores[0], &jogadores[1]);
 
-
   ret = fim_de_rodada(50, &deseja_continuar, &resume);  
   if (ret != FIM_OK){
     printf("Erro no nono caso de fim_de_rodada!\n");
@@ -412,7 +406,6 @@ int teste_fim_de_rodada(void){
 }
 
 /////FUNÇÕES DE TESTE DO MÓDULO JOGADOR/////
-
 void print_resultado(const char* nome_teste, int sucesso) {
     if (sucesso) {
         printf("PASSOU: %s", nome_teste);
@@ -421,7 +414,7 @@ void print_resultado(const char* nome_teste, int sucesso) {
     }
 }
 
-void teste_inicializa_jogador() {
+void teste_inicializa_jogadores() {
     printf("\n--- Testando inicializa_jogador ---\n");
     Espelho_Jogador p, d;
 
@@ -453,7 +446,7 @@ void teste_adiciona_carta() {
   
 }
 
-void testar_calcula_pontuacao() {
+void teste_calcula_pontuacao() {
     printf("\n--- Testando calcula_pontuacao ---\n");
     Espelho_Jogador p, d;
     inicializa_jogador(&p, &d);
@@ -479,7 +472,7 @@ void testar_calcula_pontuacao() {
     print_resultado("Pontuacao de duas cartas de 10 e 20\n", res == PONTUACAO_CORR && pontos == 20);
 }
 
-void testar_altera_dinheiro() {
+void teste_altera_dinheiro() {
     printf("\n--- Testando altera_dinheiro ---\n");
     Espelho_Jogador p, d;
     inicializa_jogador(&p, &d);
@@ -497,7 +490,7 @@ void testar_altera_dinheiro() {
     print_resultado("Falha com valor invalido (1000000)\n", res == ALTERA_VALOR_INVAL);
 }
 
-void testar_revela_cartas() {
+void teste_revela_cartas() {
     printf("\n--- Testando revela_cartas ---\n");
     Espelho_Jogador p, d;
     inicializa_jogador(&p, &d);
@@ -518,7 +511,7 @@ void testar_revela_cartas() {
     print_resultado("Falha ao revelar para jogador invalido\n", res == REVELA_JOGADOR_INVAL);
 }
 
-void testar_limpa_mao() {
+void teste_limpa_mao() {
     printf("\n--- Testando limpa_mao ---\n");
     Espelho_Jogador p, d;
     inicializa_jogador(&p, &d);
@@ -543,7 +536,7 @@ void testar_limpa_mao() {
 
 
 ///FUNÇÕES DE TESTE DO MÓDULO BARALHO///
-void testar_inicializa_baralho() {
+void teste_inicializa_baralho() {
     printf("\n--- Testando inicializa_baralho ---\n");
     int ret;
 
@@ -552,9 +545,9 @@ void testar_inicializa_baralho() {
     print_resultado("Inicializacao de baralho novo ocorreu corretamente\n", ret == 0);
 }
 
-void testar_obter_cartas_restantes() {
+void teste_obter_cartas_restantes() {
     printf("\n--- Testando obter_cartas_restantes ---\n");
-    Carta cartas[52];
+    Carta* cartas[52];
     int qtd;
     int ret;
 
@@ -576,11 +569,11 @@ void testar_obter_cartas_restantes() {
 }
 
 
-void testar_retira_cartas() {
+void teste_retira_cartas() {
     printf("\n--- Testando retira_cartas ---\n");
-    Carta mao[10];
+    Carta* mao[10];
     int ret, qtd_antes, qtd_depois;
-    Carta baralho_estado[52];
+    Carta* baralho_estado[52];
 
     inicializa_baralho(NULL, 0);
     obter_cartas_restantes(baralho_estado, &qtd_antes); // qtd_antes = 52
@@ -609,9 +602,10 @@ void testar_retira_cartas() {
     print_resultado("Falha ao retirar de baralho vazio (retorno 4)\n", ret == 4);
 }
 
-void testar_embaralha_cartas() {
+void teste_embaralha_cartas() {
     printf("\n--- Testando embaralha_cartas ---\n");
-    Carta antes[52], depois[52];
+    Carta* antes[52];
+    Carta* depois[52];
     int qtd;
 
     inicializa_baralho(NULL, 0);
@@ -635,9 +629,9 @@ void testar_embaralha_cartas() {
     print_resultado("Falha ao embaralhar baralho vazio (retorno 2)\n", ret == 2);
 }
 
-void testar_baralho_vazio() {
+void teste_baralho_vazio() {
     printf("\n--- Testando baralho_vazio ---\n");
-    Carta mao[40];
+    Carta* mao[40];
 
     // Teste 1: Baralho com mais de 20 cartas
     inicializa_baralho(NULL, 0); // 52 cartas

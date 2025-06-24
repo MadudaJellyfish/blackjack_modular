@@ -302,4 +302,3 @@ inicializa_returns inicializa_jogador(Espelho_Jogador* player, Espelho_Jogador* 
 void free_jogadores();
 
 #endif 
-

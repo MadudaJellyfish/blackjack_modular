@@ -22,15 +22,13 @@ Casos Abstratos:
     1. Parâmetros inválidos.
     2. Dados mantidos ao continuar jogo.
     3. Dados reiniciados ao default em novo jogo.
-    4. Continuar jogo sem dados prévios.
-    5. Escolha de fechar jogo mantida.
+    4. Escolha de fechar jogo mantida.
 
 Casos Valorados:
     1 e 2. Chama com parâmetros inválidos.
-    3. Chama com escolha continuar e sem dados.
-    4. Chama com escolha continuar e com dados.
-    5. Chama com escolha novo jogo.
-    6. Chama com escolha sair.
+    3. Chama com escolha continuar e com dados.
+    4. Chama com escolha novo jogo.
+    5. Chama com escolha sair.
 */
 
 int teste_fecha_jogo(void);

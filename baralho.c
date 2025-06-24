@@ -2,11 +2,17 @@
 #include <stdlib.h>
 #include "baralho.h"
 
+struct baralho {
+    Carta* v_cartas[52];
+    int qtd_cartas;
+};
+
+typedef struct baralho Baralho;
 
 static Baralho baralho = {.qtd_cartas = -1};
 //Qtd cartas = -1 para ter como padrao o teste do baralho nao ser incializado
 
-int inicializa_baralho(Carta* cartas_salvas, int qtd_cartas) {
+int inicializa_baralho(Carta* cartas_salvas[], int qtd_cartas) {
     //Carta de outro jogo
     if (cartas_salvas != NULL) {
         // Erro de parametro
@@ -25,9 +31,10 @@ int inicializa_baralho(Carta* cartas_salvas, int qtd_cartas) {
         int index =  0;
         for (int naipe = 0; naipe < 4; naipe++) {
             for (int valor_naipe = 1; valor_naipe < 14; valor_naipe++) {
-                baralho.v_cartas[index].naipe = naipe;
-                baralho.v_cartas[index].valor_naipe = valor_naipe;
-                baralho.v_cartas[index].revelada = 0;
+                baralho.v_cartas[index] = (Carta*)malloc(sizeof(Carta));
+                baralho.v_cartas[index]->naipe = naipe;
+                baralho.v_cartas[index]->valor_naipe = valor_naipe;
+                baralho.v_cartas[index]->revelada = 0;
                 index++;
             }
         }
@@ -38,7 +45,7 @@ int inicializa_baralho(Carta* cartas_salvas, int qtd_cartas) {
     return 0;
 }
 
-int obter_cartas_restantes(Carta* v_cartas_saida, int* qtd_saida) {
+int obter_cartas_restantes(Carta* v_cartas_saida[], int* qtd_saida) {
     //Erros de parametro e incializacao
     if (v_cartas_saida == NULL || qtd_saida == NULL) return 1;
     if (baralho.qtd_cartas == -1) return 2;
@@ -48,7 +55,6 @@ int obter_cartas_restantes(Carta* v_cartas_saida, int* qtd_saida) {
         v_cartas_saida[i] = baralho.v_cartas[i];
     }
     return 0;
-
 }
 
 int embaralha_cartas(void) {
@@ -64,7 +70,7 @@ int embaralha_cartas(void) {
         int j = rand() % (i + 1);
 
         //trocar a carta da posicao i e j
-        Carta temp = baralho.v_cartas[i];
+        Carta* temp = baralho.v_cartas[i];
         baralho.v_cartas[i] = baralho.v_cartas[j];
         baralho.v_cartas[j] = temp;
     }
@@ -72,7 +78,7 @@ int embaralha_cartas(void) {
     return 0;
 }
 
-int retira_cartas(Carta v_cartas[], int qtd_ditr) {
+int retira_cartas(Carta* v_cartas[], int qtd_ditr) {
     if (qtd_ditr > baralho.qtd_cartas) return 1; //Nao retirou
     if (baralho.qtd_cartas == -1) return 2; // Nao inciou
     if (qtd_ditr<0 || qtd_ditr>52) return 3; // qtd_ditr invalido
@@ -81,8 +87,13 @@ int retira_cartas(Carta v_cartas[], int qtd_ditr) {
     //retira carta
     for (int i = 0; i < qtd_ditr; i++) {
         baralho.qtd_cartas--;
-        v_cartas[i] = baralho.v_cartas[baralho.qtd_cartas];
-
+        v_cartas[i] = (Carta*)malloc(sizeof(Carta));
+        v_cartas[i]->naipe = baralho.v_cartas[baralho.qtd_cartas]->naipe;
+        v_cartas[i]->valor_naipe = baralho.v_cartas[baralho.qtd_cartas]->valor_naipe;
+        v_cartas[i]->revelada = baralho.v_cartas[baralho.qtd_cartas]->revelada;
+        
+        free(baralho.v_cartas[baralho.qtd_cartas]);
+        baralho.v_cartas[baralho.qtd_cartas] = NULL;
     }
     return 0;
 
