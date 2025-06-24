@@ -120,7 +120,7 @@ adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador)
 
     Carta* v_aux_cartas[11];
 
-    int ret = retirar_cartas(v_aux_cartas, qtd_cartas); //função a ser definida no módulo Baralho
+    int ret = retira_cartas(v_aux_cartas, qtd_cartas); //função a ser definida no módulo Baralho
     if(ret != 0)
         return ADIC_RETIRA_CARTAS_INCORR;
 
