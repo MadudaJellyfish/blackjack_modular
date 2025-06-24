@@ -6,6 +6,9 @@
 void imprime_cartas(int tipo_jogador);
 void imprime_status(int tipo_jogador, int dinheiro);
 void imprime_msg(const char* msg);
+const char* naipe_to_string(int naipe);
+const char* valor_to_string(int valor);
+
 
 void imprime_cartas(int tipo_jogador) {
     Espelho_Jogador* jogador;
@@ -14,7 +17,7 @@ void imprime_cartas(int tipo_jogador) {
     printf("%s: ", tipo_jogador == 0 ? "Usuário" : "Dealer");
     for (int i = 0; i < 11 && jogador->v_mao[i] != NULL; i++) {
         if (jogador->v_mao[i]->revelada) {
-            printf("[%d de %d] ", jogador->v_mao[i]->valor_naipe, jogador->v_mao[i]->naipe);
+            printf("[%s de %s] ", valor_to_string(jogador->v_mao[i]->valor_naipe), naipe_to_string(jogador->v_mao[i]->naipe));
         } else {
             printf("[?] ");
         }
@@ -116,4 +119,29 @@ int interface_fim(int resultado, int aposta, int* deseja_continuar) {
 
 void game_over() {
     printf("\n=== GAME OVER ===\n");
+}
+
+const char* naipe_to_string(int naipe) {
+    switch (naipe) {
+        case 0: return "espadas";
+        case 1: return "copas";
+        case 2: return "ouros";
+        case 3: return "paus";
+        default: return "desconhecido";
+    }
+}
+
+const char* valor_to_string(int valor) {
+    switch (valor) {
+        case 1: return "A";
+        case 11: return "J";
+        case 12: return "Q";
+        case 13: return "K";
+        default: {
+            // Para valores numéricos, converter para string
+            static char buffer[3]; // Suficiente para "10" e '\0'
+            sprintf(buffer, "%d", valor);
+            return buffer;
+        }
+    }
 }
