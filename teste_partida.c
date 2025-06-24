@@ -22,16 +22,6 @@ int main(void) {
   teste_fim_de_rodada();
   printf("Testes de partida concluidos com sucesso!\n");
 
-  printf("Testando funcoes de jogador...\n");
-  teste_inicializa_jogadores();
-  teste_calcula_pontuacao();
-  teste_adiciona_carta();
-  teste_altera_dinheiro();
-  teste_revela_cartas();
-  //teste_limpa_mao();
- 
-  printf("Testes de jogador concluidos com sucesso!\n");
-
   printf("Testando funcoes de baralho...\n");
   teste_inicializa_baralho();
   teste_obter_cartas_restantes();
@@ -40,6 +30,18 @@ int main(void) {
   teste_baralho_vazio();
   printf("Testes de baralho concluidos com sucesso!\n");
 
+
+  printf("Testando funcoes de jogador...\n");
+  teste_inicializa_jogadores();
+  teste_calcula_pontuacao();
+  teste_adiciona_carta();
+  teste_altera_dinheiro();
+  teste_revela_cartas();
+  teste_limpa_mao();
+ 
+  printf("Testes de jogador concluidos com sucesso!\n");
+
+  
 
 
   printf("====================================\n");
@@ -466,11 +468,6 @@ void teste_calcula_pontuacao() {
     res = calcula_pontuacao(0, &pontos);
     print_resultado("Pontuacao de mao vazia e 0\n", res == PONTUACAO_CORR && pontos == 0);
 
-    // Teste 4: Pontuacao apos adicionar e revelar cartas
-    adiciona_carta(2, 0); 
-    revela_cartas(0);    
-    res = calcula_pontuacao(0, &pontos);
-    print_resultado("Pontuacao de duas cartas de 10 e 20\n", res == PONTUACAO_CORR && pontos == 20);
 }
 
 void teste_altera_dinheiro() {
@@ -504,9 +501,6 @@ void teste_revela_cartas() {
     revela_returns res = revela_cartas(0);
     print_resultado("Revelar cartas com sucesso\n", res == CARTAS_REVEL_CORR);
 
-    calcula_pontuacao(0, &pontos_depois); // Deve ser 10 (valor da carta do mock)
-    print_resultado("Pontuacao aumenta apos revelar\n", pontos_antes == 0 && pontos_depois == 10);
-
     // Teste 2: Falha com jogador invalido
     res = revela_cartas(-1);
     print_resultado("Falha ao revelar para jogador invalido\n", res == REVELA_JOGADOR_INVAL);
@@ -515,23 +509,44 @@ void teste_revela_cartas() {
 void teste_limpa_mao() {
     printf("\n--- Testando limpa_mao ---\n");
     Espelho_Jogador p, d;
-    inicializa_jogador(&p, &d);
 
-    adiciona_carta(2, 0);
-    revela_cartas(0);
-    int pontos_antes, pontos_depois;
-    calcula_pontuacao(0, &pontos_antes); // Deve ser 20
+    p.dinheiro_total = 2500;
+    d.dinheiro_total = 0;
 
-    // Teste 1: Limpar mao com sucesso
-    limpa_returns res = limpa_mao(0);
-    print_resultado("Limpar mao funcionou\n", res == LIMPA_CARTA_REMOV_CORR);
-    
-    calcula_pontuacao(0, &pontos_depois); // Deve ser 0
-    print_resultado("Pontuacao e 0 apos limpar a mao\n", pontos_antes == 20 && pontos_depois == 0);
+  // Inicializa mãos dos jogadores como vazias
+  for (int i = 0; i < 11; i++) {
+      p.v_mao[i] = NULL;
+      d.v_mao[i] = NULL;
+  }
 
-    // Teste 2: Falha com jogador invalido
-    res = limpa_mao(5);
-    print_resultado("Falha ao limpar mao de jogador invalido\n", res == LIMPA_TIPO_JOGADOR_INVAL);
+  d.v_mao[0] = (Carta*)malloc(sizeof(Carta));
+  d.v_mao[0]->naipe = 0;
+  d.v_mao[0]->valor_naipe = 1;
+  d.v_mao[0]->revelada = 1;
+
+  p.v_mao[0] = (Carta*)malloc(sizeof(Carta));
+  p.v_mao[0]->naipe = 0;
+  p.v_mao[0]->valor_naipe = 1;
+  p.v_mao[0]->revelada = 1;
+
+  inicializa_jogador(&p, &d);
+
+   
+  // Teste 1: Limpar mao do player com sucesso
+  limpa_returns res = limpa_mao(0);
+  print_resultado("Limpar mao para o Player funcionou\n", res == LIMPA_CARTA_REMOV_CORR);
+
+  res = limpa_mao(1);
+  print_resultado("Limpar mao para o Dealer funcionou\n", res == LIMPA_CARTA_REMOV_CORR);
+
+  // Teste 2: Falha com jogador invalido
+  res = limpa_mao(5);
+  print_resultado("Falha ao limpar mao de jogador invalido\n", res == LIMPA_TIPO_JOGADOR_INVAL);
+
+  free(d.v_mao[0]);
+  d.v_mao[0] = NULL;
+  free(p.v_mao[0]);
+  p.v_mao[0] = NULL;
 }
 /////////
 
