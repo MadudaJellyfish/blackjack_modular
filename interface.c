@@ -6,18 +6,16 @@
 void imprime_cartas(int tipo_jogador);
 void imprime_status(int tipo_jogador, int dinheiro);
 void imprime_msg(const char* msg);
-const char* naipe_to_string(int naipe);
-const char* valor_to_string(int valor);
 
 
 void imprime_cartas(int tipo_jogador) {
-    Espelho_Jogador* jogador;
+    Espelho_Jogador jogador;
     if (ler_jogador(tipo_jogador, &jogador) != LER_JOGADOR_CORR) return;
 
     printf("%s: ", tipo_jogador == 0 ? "Usuário" : "Dealer");
-    for (int i = 0; i < 11 && jogador->v_mao[i] != NULL; i++) {
-        if (jogador->v_mao[i]->revelada) {
-            printf("[%s de %s] ", valor_to_string(jogador->v_mao[i]->valor_naipe), naipe_to_string(jogador->v_mao[i]->naipe));
+    for (int i = 0; i < 11 && jogador.v_mao[i] != NULL; i++) {
+        if (jogador.v_mao[i]->revelada) {
+            printf("[%s de %s] ", valor_to_string(jogador.v_mao[i]->valor_naipe), naipe_to_string(jogador.v_mao[i]->naipe));
         } else {
             printf("[?] ");
         }
@@ -97,7 +95,7 @@ int define_aposta(int* aposta, int dinheiro_disponivel) {
 int interface_fim(int resultado, int aposta, int* deseja_continuar) {
     switch (resultado) {
         case 2: printf("Você venceu R$%d!\n", aposta); break;
-        case 3: printf("Blackjack! Você ganhou R$%d!\n", aposta * 1.5); break;
+        case 3: printf("Blackjack! Você ganhou R$%.0f!\n", aposta * 1.5); break;
         case 1: printf("Você perdeu R$%d!\n", aposta); break;
         case 0: printf("Empate!\n"); break;
     }
@@ -117,8 +115,9 @@ int interface_fim(int resultado, int aposta, int* deseja_continuar) {
     return 0;
 }
 
-void game_over() {
+int game_over(void) {
     printf("\n=== GAME OVER ===\n");
+    return 0;
 }
 
 const char* naipe_to_string(int naipe) {
