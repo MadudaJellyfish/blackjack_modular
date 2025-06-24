@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "partida.h"
 #include "jogador.h"
 #include "baralho.h"
@@ -538,7 +539,7 @@ void testar_inicializa_baralho() {
 
 void testar_obter_cartas_restantes() {
     printf("\n--- Testando obter_cartas_restantes ---\n");
-    Carta cartas[52];
+    Carta* cartas[52];
     int qtd;
     int ret;
 
@@ -562,9 +563,9 @@ void testar_obter_cartas_restantes() {
 
 void testar_retira_cartas() {
     printf("\n--- Testando retira_cartas ---\n");
-    Carta mao[10];
+    Carta* mao[10];
     int ret, qtd_antes, qtd_depois;
-    Carta baralho_estado[52];
+    Carta* baralho_estado[52];
 
     inicializa_baralho(NULL, 0);
     obter_cartas_restantes(baralho_estado, &qtd_antes); // qtd_antes = 52
@@ -595,7 +596,8 @@ void testar_retira_cartas() {
 
 void testar_embaralha_cartas() {
     printf("\n--- Testando embaralha_cartas ---\n");
-    Carta antes[52], depois[52];
+    Carta* antes[52];
+    Carta* depois[52];
     int qtd;
 
     inicializa_baralho(NULL, 0);
@@ -621,7 +623,7 @@ void testar_embaralha_cartas() {
 
 void testar_baralho_vazio() {
     printf("\n--- Testando baralho_vazio ---\n");
-    Carta mao[40];
+    Carta* mao[40];
 
     // Teste 1: Baralho com mais de 20 cartas
     inicializa_baralho(NULL, 0); // 52 cartas
