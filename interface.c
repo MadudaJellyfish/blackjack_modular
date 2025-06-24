@@ -12,7 +12,7 @@ void imprime_cartas(int tipo_jogador) {
     Espelho_Jogador jogador;
     if (ler_jogador(tipo_jogador, &jogador) != LER_JOGADOR_CORR) return;
 
-    printf("%s: ", tipo_jogador == 0 ? "Usuário" : "Dealer");
+    printf("%s: ", tipo_jogador == 0 ? "Player" : "Dealer");
     for (int i = 0; i < 11 && jogador.v_mao[i] != NULL; i++) {
         if (jogador.v_mao[i]->revelada) {
             printf("[%s de %s] ", valor_to_string(jogador.v_mao[i]->valor_naipe), naipe_to_string(jogador.v_mao[i]->naipe));
@@ -25,7 +25,7 @@ void imprime_cartas(int tipo_jogador) {
 
 void imprime_status(int tipo_jogador, int dinheiro) {
     if (tipo_jogador == 0)
-        printf("Dinheiro disponível: R$ %d\n", dinheiro);
+        printf("Dinheiro disponivel: R$ %d\n", dinheiro);
 }
 
 void imprime_msg(const char* msg) {
@@ -40,12 +40,12 @@ int menu_principal(int* escolha, int resume) {
         printf("2 - Sair\n");
         printf("Escolha: ");
         if (scanf("%d", escolha) != 1) {
-            printf("Entrada inválida. Digite um número.\n");
+            printf("Entrada invalida. Digite um número.\n");
             while (getchar() != '\n');
             continue;
         }
         if (*escolha < 0 || *escolha > 2 || (!resume && *escolha == 1)) {
-            printf("Opção inválida. Tente novamente.\n");
+            printf("Opção invalida. Tente novamente.\n");
         }
     } while (*escolha < 0 || *escolha > 2 || (!resume && *escolha == 1));
     return 0;
@@ -59,12 +59,12 @@ int interface_rodada(int tipo_jogador, int aposta, int* jogada) {
             printf("0 - Manter (stand)\n1 - Comprar carta (hit)\n2 - Voltar ao menu\n");
             printf("Escolha: ");
             if (scanf("%d", jogada) != 1) {
-                printf("Entrada inválida. Digite um número.\n");
+                printf("Entrada invalida. Digite um número.\n");
                 while (getchar() != '\n');
                 continue;
             }
             if (*jogada < 0 || *jogada > 2) {
-                printf("Opção inválida. Tente novamente.\n");
+                printf("Opção invalida. Tente novamente.\n");
             }
         } while (*jogada < 0 || *jogada > 2);
         return 0;
@@ -78,14 +78,14 @@ int interface_rodada(int tipo_jogador, int aposta, int* jogada) {
 int define_aposta(int* aposta, int dinheiro_disponivel) {
     int valor;
     do {
-        printf("Digite sua aposta (até R$ %d): ", dinheiro_disponivel);
+        printf("Digite sua aposta (ate R$ %d): ", dinheiro_disponivel);
         if (scanf("%d", &valor) != 1) {
-            printf("Entrada inválida. Digite um número.\n");
+            printf("Entrada invalida. Digite um número.\n");
             while (getchar() != '\n');
             continue;
         }
         if (valor <= 0 || valor > dinheiro_disponivel) {
-            printf("Valor inválido. Tente novamente.\n");
+            printf("Valor invalido. Tente novamente.\n");
         }
     } while (valor <= 0 || valor > dinheiro_disponivel);
     *aposta = valor;
@@ -94,7 +94,7 @@ int define_aposta(int* aposta, int dinheiro_disponivel) {
 
 int interface_fim(int resultado, int aposta, int* deseja_continuar) {
     switch (resultado) {
-        case 2: printf("Você venceu R$%d!\n", aposta); break;
+        case 2: printf("Voce venceu R$%d!\n", aposta); break;
         case 3: printf("Blackjack! Você ganhou R$%.0f!\n", aposta * 1.5); break;
         case 1: printf("Você perdeu R$%d!\n", aposta); break;
         case 0: printf("Empate!\n"); break;
@@ -108,7 +108,7 @@ int interface_fim(int resultado, int aposta, int* deseja_continuar) {
             continue;
         }
         if (continuar != 0 && continuar != 1) {
-            printf("Opção inválida. Digite 0 ou 1.\n");
+            printf("Opção invalida. Digite 0 ou 1.\n");
         }
     } while (continuar != 0 && continuar != 1);
     *deseja_continuar = continuar;

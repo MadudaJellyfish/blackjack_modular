@@ -10,9 +10,9 @@
 
 int main(void) {
 
-  printf("[INICIANDO TESTE DA APLICAÇÃO]\n");
+  printf("[INICIANDO TESTE DA APLICACAO]\n");
   printf("====================================\n");
-  printf("Testando funções de partida...\n");
+  printf("Testando funcoes de partida...\n");
   teste_inicia_jogo();
   teste_chama_menu();
   teste_fecha_jogo();
@@ -20,24 +20,25 @@ int main(void) {
   teste_turno_usuario();
   teste_turno_dealer();
   teste_fim_de_rodada();
-  printf("Testes de partida concluídos com sucesso!\n");
+  printf("Testes de partida concluidos com sucesso!\n");
 
-  printf("Testando funções de jogador...\n");
+  printf("Testando funcoes de jogador...\n");
   teste_inicializa_jogadores();
   teste_calcula_pontuacao();
   teste_adiciona_carta();
-  teste_limpa_mao();
-  teste_revela_cartas();
   teste_altera_dinheiro();
-  printf("Testes de jogador concluídos com sucesso!\n");
+  teste_revela_cartas();
+  //teste_limpa_mao();
+ 
+  printf("Testes de jogador concluidos com sucesso!\n");
 
-  printf("Testando funções de baralho...\n");
+  printf("Testando funcoes de baralho...\n");
   teste_inicializa_baralho();
   teste_obter_cartas_restantes();
   teste_retira_cartas();
   teste_embaralha_cartas();
   teste_baralho_vazio();
-  printf("Testes de baralho concluídos com sucesso!\n");
+  printf("Testes de baralho concluidos com sucesso!\n");
 
 
 

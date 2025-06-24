@@ -369,4 +369,6 @@ Condições de Acoplamento:
    3. Os dados de baralho foram salvos corretamente no arquivo.
 */
 
+ void libera_jogador();
+
 #endif

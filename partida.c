@@ -529,3 +529,8 @@ int parse_valor(const char *str) {
     if (strcmp(str, "K") == 0) return 13;
     return atoi(str); // valores numéricos de 2 a 10
 }
+
+void libera_jogadores()
+{
+    free_jogadores();
+}
