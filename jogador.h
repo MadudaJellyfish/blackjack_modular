@@ -1,5 +1,6 @@
 #ifndef JOGADOR_H
 #define JOGADOR_H
+#include "baralho.h"
 
 typedef struct jogador Jogador;
 
@@ -104,7 +105,7 @@ Condições de acoplamento:
     - As informações do jogador solicitado são preenchidas corretamente na estrutura apontada por 'jogador', e a função retorna o status da operação.
 */
 
-ler_returns ler_jogador(int tipo_jogador, Jogador* jogador);
+ler_returns ler_jogador(int tipo_jogador, Espelho_Jogador* jogador);
 
 typedef enum 
 {
@@ -301,4 +302,3 @@ inicializa_returns inicializa_jogador(Espelho_Jogador* player, Espelho_Jogador* 
 void free_jogadores();
 
 #endif 
-
