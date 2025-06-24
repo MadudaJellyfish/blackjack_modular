@@ -10,8 +10,6 @@
 int verifica_vencedor(void);
 int parse_naipe(const char *str);
 int parse_valor(const char *str);
-const char* naipe_to_string(int naipe);
-const char* valor_to_string(int valor);
 
 iniciajogo_cond_ret inicia_jogo(int* resume, int* aposta){
     Espelho_Jogador jogadores[2]; // jogadores[0] = usuário, jogadores[1] = dealer
@@ -529,30 +527,4 @@ int parse_valor(const char *str) {
     if (strcmp(str, "Q") == 0) return 12;
     if (strcmp(str, "K") == 0) return 13;
     return atoi(str); // valores numéricos de 2 a 10
-}
-
-// Funções auxiliares para converter de int/enum para string
-const char* naipe_to_string(int naipe) {
-    switch (naipe) {
-        case 0: return "espadas";
-        case 1: return "copas";
-        case 2: return "ouros";
-        case 3: return "paus";
-        default: return "desconhecido";
-    }
-}
-
-const char* valor_to_string(int valor) {
-    switch (valor) {
-        case 1: return "A";
-        case 11: return "J";
-        case 12: return "Q";
-        case 13: return "K";
-        default: {
-            // Para valores numéricos, converter para string
-            static char buffer[3]; // Suficiente para "10" e '\0'
-            sprintf(buffer, "%d", valor);
-            return buffer;
-        }
-    }
 }
