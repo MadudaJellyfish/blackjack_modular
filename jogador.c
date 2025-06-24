@@ -172,7 +172,7 @@ revela_returns revela_cartas(int tipo_jogador)
         
     }
 
-    return CARTAS_REVEL_INCORR;
+    return CARTAS_REVEL_CORR;
 }
 
 altera_returns altera_dinheiro(int valor)
