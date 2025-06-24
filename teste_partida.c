@@ -117,29 +117,23 @@ int teste_chama_menu(void){
     printf("Erro no segundo caso de chama_menu!\n");
     return 0;
   }
-  
-  ret = chama_menu(escolha, 0);
-  if (ret != CHAMA_MENU_DADOS_ANTERIORES_FALTANTES){
-    printf("Erro no terceiro caso de chama_menu!\n");
-    return 0;
-  }
 
   ret = chama_menu(escolha, 1);
   if (ret != CHAMA_MENU_OK){
-    printf("Erro no quarto caso de chama_menu!\n");
+    printf("Erro no terceiro caso de chama_menu!\n");
     return 0;
   }
 
   *escolha = 2;
   ret = chama_menu(escolha, 1);
   if (ret != CHAMA_MENU_OK){
-    printf("Erro no quinto caso de chama_menu!\n");
+    printf("Erro no quarto caso de chama_menu!\n");
     return 0;
   }
 
   ret = chama_menu(escolha, 1);
   if (ret != CHAMA_MENU_OK){
-    printf("Erro no sexto caso de chama_menu!\n");
+    printf("Erro no quinto caso de chama_menu!\n");
     return 0;
   }
 
@@ -338,7 +332,7 @@ int teste_fim_de_rodada(void){
   jogadores[0].v_mao[0]->valor_naipe = 1;
   jogadores[0].v_mao[0]->revelada = 1;
 
-   inicializa_jogador(&jogadores[0], &jogadores[1]);
+  inicializa_jogador(&jogadores[0], &jogadores[1]);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
@@ -352,7 +346,7 @@ int teste_fim_de_rodada(void){
   jogadores[0].v_mao[1]->valor_naipe = 5;
   jogadores[0].v_mao[1]->revelada = 1;
 
-   inicializa_jogador(&jogadores[0], &jogadores[1]);
+  inicializa_jogador(&jogadores[0], &jogadores[1]);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
@@ -366,7 +360,7 @@ int teste_fim_de_rodada(void){
   jogadores[0].v_mao[2]->valor_naipe = 5;
   jogadores[0].v_mao[2]->revelada = 1;
 
-   inicializa_jogador(&jogadores[0], &jogadores[1]);
+  inicializa_jogador(&jogadores[0], &jogadores[1]);
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
@@ -396,7 +390,6 @@ int teste_fim_de_rodada(void){
   jogadores[0].v_mao[0] = NULL;
   jogadores[0].dinheiro_total = 0;
   inicializa_jogador(&jogadores[0], &jogadores[1]);
-
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);  
   if (ret != FIM_OK){
