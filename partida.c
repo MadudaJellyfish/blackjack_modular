@@ -206,7 +206,8 @@ fecha_cond_ret fecha_jogo(int aposta, int resume){
     }
     cJSON_AddItemToObject(root, "baralho", baralho_json);
 
-    if (obter_cartas_restantes(baralho)){ // Recebe as cartas restantes no baralho
+    int qtd_cartas;
+    if (obter_cartas_restantes(baralho, &qtd_cartas)){ // Recebe as cartas restantes no baralho
         return FECHA_JOGO_LER_BARALHO_FALHA;
     }
 
