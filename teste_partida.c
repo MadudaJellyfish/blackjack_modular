@@ -406,7 +406,7 @@ int teste_fim_de_rodada(void){
 
 /////FUNÇÕES DE TESTE DO MÓDULO JOGADOR/////
 
-void teste_inicializa_jogador() {
+void teste_inicializa_jogadores() {
     printf("\n--- Testando inicializa_jogador ---\n");
     Espelho_Jogador p, d;
 
@@ -438,7 +438,7 @@ void teste_adiciona_carta() {
   
 }
 
-void testar_calcula_pontuacao() {
+void teste_calcula_pontuacao() {
     printf("\n--- Testando calcula_pontuacao ---\n");
     Espelho_Jogador p, d;
     inicializa_jogador(&p, &d);
@@ -464,7 +464,7 @@ void testar_calcula_pontuacao() {
     print_resultado("Pontuacao de duas cartas de 10 e 20\n", res == PONTUACAO_CORR && pontos == 20);
 }
 
-void testar_altera_dinheiro() {
+void teste_altera_dinheiro() {
     printf("\n--- Testando altera_dinheiro ---\n");
     Espelho_Jogador p, d;
     inicializa_jogador(&p, &d);
@@ -482,7 +482,7 @@ void testar_altera_dinheiro() {
     print_resultado("Falha com valor invalido (1000000)\n", res == ALTERA_VALOR_INVAL);
 }
 
-void testar_revela_cartas() {
+void teste_revela_cartas() {
     printf("\n--- Testando revela_cartas ---\n");
     Espelho_Jogador p, d;
     inicializa_jogador(&p, &d);
@@ -503,7 +503,7 @@ void testar_revela_cartas() {
     print_resultado("Falha ao revelar para jogador invalido\n", res == REVELA_JOGADOR_INVAL);
 }
 
-void testar_limpa_mao() {
+void teste_limpa_mao() {
     printf("\n--- Testando limpa_mao ---\n");
     Espelho_Jogador p, d;
     inicializa_jogador(&p, &d);
@@ -528,7 +528,7 @@ void testar_limpa_mao() {
 
 
 ///FUNÇÕES DE TESTE DO MÓDULO BARALHO///
-void testar_inicializa_baralho() {
+void teste_inicializa_baralho() {
     printf("\n--- Testando inicializa_baralho ---\n");
     int ret;
 
@@ -537,7 +537,7 @@ void testar_inicializa_baralho() {
     print_resultado("Inicializacao de baralho novo ocorreu corretamente\n", ret == 0);
 }
 
-void testar_obter_cartas_restantes() {
+void teste_obter_cartas_restantes() {
     printf("\n--- Testando obter_cartas_restantes ---\n");
     Carta* cartas[52];
     int qtd;
@@ -561,7 +561,7 @@ void testar_obter_cartas_restantes() {
 }
 
 
-void testar_retira_cartas() {
+void teste_retira_cartas() {
     printf("\n--- Testando retira_cartas ---\n");
     Carta* mao[10];
     int ret, qtd_antes, qtd_depois;
@@ -594,7 +594,7 @@ void testar_retira_cartas() {
     print_resultado("Falha ao retirar de baralho vazio (retorno 4)\n", ret == 4);
 }
 
-void testar_embaralha_cartas() {
+void teste_embaralha_cartas() {
     printf("\n--- Testando embaralha_cartas ---\n");
     Carta* antes[52];
     Carta* depois[52];
@@ -621,7 +621,7 @@ void testar_embaralha_cartas() {
     print_resultado("Falha ao embaralhar baralho vazio (retorno 2)\n", ret == 2);
 }
 
-void testar_baralho_vazio() {
+void teste_baralho_vazio() {
     printf("\n--- Testando baralho_vazio ---\n");
     Carta* mao[40];
 
