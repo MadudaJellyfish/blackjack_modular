@@ -57,6 +57,9 @@ int interface_rodada(int tipo_jogador, int aposta, int* jogada) {
             calcula_pontuacao(0, &pontuacao);
             printf("\nPontuação: %d\n", pontuacao);
             imprime_cartas(0);
+            calcula_pontuacao(1, &pontuacao);
+            printf("\nPontuação: %d\n", pontuacao);
+            imprime_cartas(1);
             printf("Aposta atual: R$ %d\n", aposta);
             printf("0 - Manter (stand)\n1 - Comprar carta (hit)\n2 - Voltar ao menu\n");
             printf("Escolha: ");
@@ -72,6 +75,9 @@ int interface_rodada(int tipo_jogador, int aposta, int* jogada) {
         return 0;
     } else {
         imprime_msg("Turno do dealer...");
+        calcula_pontuacao(0, &pontuacao);
+        printf("\nPontuação: %d\n", pontuacao);
+        imprime_cartas(0);
         calcula_pontuacao(1, &pontuacao);
         printf("\nPontuação: %d\n", pontuacao);
         imprime_cartas(1);
