@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "baralho.h"
 
 struct baralho {
@@ -70,6 +71,7 @@ int embaralha_cartas(void) {
     }
 
     int n = baralho.qtd_cartas;
+    srand(time(NULL));
 
     // loop de tras para frente
     for (int i = n - 1; i > 0; i--) {
