@@ -54,6 +54,10 @@ int menu_principal(int* escolha, int resume) {
 
 
 int interface_rodada(int tipo_jogador, int aposta, int* jogada) {
+
+    if (jogada == NULL || (tipo_jogador != 0 && tipo_jogador != 1) || aposta < 0)
+        return -1;
+    
     int pontuacao;
     if (tipo_jogador == 0) {
         do {
@@ -90,6 +94,10 @@ int interface_rodada(int tipo_jogador, int aposta, int* jogada) {
 }
 
 int define_aposta(int* aposta, int dinheiro_disponivel) {
+
+    if (aposta == NULL || dinheiro_disponivel <= 0)
+        return -1;
+    
     int valor;
     do {
         printf("Digite sua aposta (ate R$ %d): ", dinheiro_disponivel);
@@ -107,6 +115,10 @@ int define_aposta(int* aposta, int dinheiro_disponivel) {
 }
 
 int interface_fim(int resultado, int aposta, int* deseja_continuar) {
+
+    if (deseja_continuar == NULL || aposta < 0 || resultado < 0 || resultado > 3)
+        return -1;
+    
     switch (resultado) {
         case 2: printf("Voce venceu R$%d!\n", aposta); break;
         case 3: printf("Blackjack! Você ganhou R$%.0f!\n", aposta * 1.5); break;
