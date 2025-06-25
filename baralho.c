@@ -111,9 +111,18 @@ int baralho_vazio(void) {
 }
 
 void libera_baralho(void) {
-    //Resetando toda a estrutura
-    memset(&baralho, 0, sizeof(Baralho));
+    if (baralho.qtd_cartas == -1) {
+        return;
+    }
 
-    // Redefine o estado para "nao inicializado"
+    // Libera a memoria de cada ponteiro de carta valido no vetor
+    for (int i = 0; i < 52; i++) { // Percorre o vetor inteiro para garantir
+        if (baralho.v_cartas[i] != NULL) {
+            free(baralho.v_cartas[i]);
+            baralho.v_cartas[i] = NULL;
+        }
+    }
+
+    // Reseta o estado do modulo
     baralho.qtd_cartas = -1;
 }
