@@ -421,7 +421,6 @@ fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume){
     int resultado;
     int alt = aposta;
     Espelho_Jogador jogadores[2];
-    *resume = 1;
 
     if (aposta < 0 || aposta > 999999) // A aposta não pode ser negativa nem acima de 999999
         return FIM_PARAM_APOSTA_INVALIDO;
@@ -431,6 +430,8 @@ fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume){
 
     if (!resume)
         return FIM_PARAM_RESUME_INVALIDO;
+
+    *resume = 1;
 
     resultado  = verifica_vencedor();
     if (resultado == 4)
