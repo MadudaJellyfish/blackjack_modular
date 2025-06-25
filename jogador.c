@@ -190,10 +190,10 @@ altera_returns altera_dinheiro(int valor)
     return ALTERA_DINHEIRO_ALT_CORR;
 }
 
-void free_jogadores()
+int free_jogadores()
 {
     if (v_true_jogadores == NULL)
-        return; // Se já estiver liberado, não faz nada
+        return 1; // Se já estiver liberado, não faz nada
 
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 11; j++) {
@@ -203,4 +203,5 @@ void free_jogadores()
         }
     }
    free(v_true_jogadores);
+   return 0;
 }
