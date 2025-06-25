@@ -406,7 +406,8 @@ dealer_cond_ret turno_dealer(int aposta){
 }
 
 fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume){
-    int resultado, alt;
+    int resultado;
+    int alt = aposta;
     Espelho_Jogador jogadores[2];
 
     if (aposta < 0 || aposta > 999999) // A aposta não pode ser negativa nem acima de 999999
