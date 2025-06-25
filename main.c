@@ -17,7 +17,7 @@ int main(void) {
         if(escolha_menu == 2){ // usuário escolheu sair
             fecha_jogo(aposta, resume);
             libera_jogador();
-            libera_baralho();
+            free_baralho();
             break;
         }
 
