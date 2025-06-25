@@ -86,10 +86,10 @@ int embaralha_cartas(void) {
 }
 
 int retira_cartas(Carta* v_cartas[], int qtd_ditr) {
+    if (baralho.qtd_cartas == 0) return 4; // baralho vazio
     if (qtd_ditr > baralho.qtd_cartas) return 1; //Nao retirou
     if (baralho.qtd_cartas == -1) return 2; // Nao inciou
     if (qtd_ditr<0 || qtd_ditr>52) return 3; // qtd_ditr invalido
-    if (baralho.qtd_cartas == 0) return 4; // baralho vazio
     if (v_cartas == NULL) return 5;// ponteiro invalido
     //retira carta
     for (int i = 0; i < qtd_ditr; i++) {
@@ -98,7 +98,7 @@ int retira_cartas(Carta* v_cartas[], int qtd_ditr) {
         v_cartas[i]->naipe = baralho.v_cartas[baralho.qtd_cartas]->naipe;
         v_cartas[i]->valor_naipe = baralho.v_cartas[baralho.qtd_cartas]->valor_naipe;
         v_cartas[i]->revelada = baralho.v_cartas[baralho.qtd_cartas]->revelada;
-        
+
         free(baralho.v_cartas[baralho.qtd_cartas]);
         baralho.v_cartas[baralho.qtd_cartas] = NULL;
     }
