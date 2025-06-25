@@ -212,9 +212,11 @@ int free_jogadores()
         for (int j = 0; j < 11; j++) {
             if (v_true_jogadores[i].v_mao[j] != NULL) {
                 free(v_true_jogadores[i].v_mao[j]); // Libera cada carta na mão
+                v_true_jogadores[i].v_mao[j] = NULL;
             }
         }
     }
    free(v_true_jogadores);
+   v_true_jogadores = NULL;
    return 0;
 }
