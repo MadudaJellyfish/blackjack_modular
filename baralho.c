@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "baralho.h"
 
 struct baralho {
@@ -107,4 +108,12 @@ int baralho_vazio(void) {
     } else {
         return 0;
     }
+}
+
+void libera_baralho(void) {
+    //Resetando toda a estrutura
+    memset(&baralho, 0, sizeof(Baralho));
+
+    // Redefine o estado para "nao inicializado"
+    baralho.qtd_cartas = -1;
 }
