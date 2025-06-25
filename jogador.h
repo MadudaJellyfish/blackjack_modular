@@ -299,6 +299,6 @@ Condições de acoplamento:
 
 inicializa_returns inicializa_jogador(Espelho_Jogador* player, Espelho_Jogador* dealer);
 
-void free_jogadores();
+int free_jogadores();
 
 #endif 
