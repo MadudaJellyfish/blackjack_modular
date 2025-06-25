@@ -114,6 +114,7 @@ Casos Abstratos:
 
 Casos Valorados:
     1. Chamada da função
+    2. Chamada com o jogador não inicializado
 */
 
 int teste_free_baralho(void);
@@ -123,6 +124,7 @@ Casos Abstratos:
 
 Casos Valorados:
     1. Chamada da função
+    2. Chamada com o baralho não inicializado
 */
 
 void teste_inicializa_jogadores(void);
@@ -137,6 +139,16 @@ void teste_revela_cartas(void);
 
 void teste_altera_dinheiro(void);
 
+void teste_free_jogador(void);
+/*
+Casos Abstratos:
+    1. Chamada da função
+
+Casos Valorados:
+    1. Chamada da função
+    2. Chamada com o jogador não inicializado
+*/
+
 ///
 
 void teste_inicializa_baralho(void);
@@ -148,6 +160,16 @@ void teste_retira_cartas(void);
 void teste_embaralha_cartas(void);
 
 void teste_baralho_vazio(void);
+
+void teste_libera_baralho(void);
+/*
+Casos Abstratos:
+    1. Chamada da função
+
+Casos Valorados:
+    1. Chamada da função
+    2. Chamada com o baralho não inicializado
+*/
 
 ///
 
