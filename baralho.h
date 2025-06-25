@@ -161,14 +161,13 @@ Condicao de acoplamento:
 void libera_baralho(void);
 /*
 Objetivo:
-    Resetar o estado do modulo Baralho, marcando-o como nao inicializado.
+    Liberar toda a memoria alocada dinamicamente para as cartas e resetar o estado do modulo Baralho.
 
 Descricao:
-    1. Esta funcao redefine a variavel de estado interna do modulo para sua condicao inicial.
-    2. Ela deve ser chamada ao final do jogo para garantir um encerramento limpo,
-       impedindo o uso do baralho até que ele seja inicializado novamente.
-    3. Como o baralho usa memória estática, esta função nao libera memoria com free,
-       apenas redefine o estado logico do modulo.
+    1. A funcao percorre o vetor de ponteiros de cartas do baralho.
+    2. Para cada ponteiro de carta valido, a função chama free() para liberar a memoria alocada individualmente.
+    3. Apos liberar toda a memoria, reseta o estado do modulo para "nao inicializado", a fim de prevenir erros.
+    4. Esta funcao deve ser chamada ao final do jogo para evitar vazamentos de memoria 
 
 Acoplamento:
 - Parametros:
@@ -182,6 +181,7 @@ Condicao de acoplamento:
     Nenhuma.
 
 - Assertiva de saida:
-    1. O modulo Baralho e logicamente resetado ao seu estado "nao inicializado".
+    1. Toda a memoria que foi alocada dinamicamente para as cartas e devolvida ao sistema.
+    2. O modulo Baralho e logicamente resetado ao seu estado "nao inicializado", prevenindo o uso de ponteiros agora invalidos.
 */
 #endif
