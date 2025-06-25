@@ -80,6 +80,10 @@ calc_returns calcula_pontuacao(int tipo_jogador, int* valor)
             {
                 pontuacao += 10; // Valem 10 pontos
             }
+            if (num_ases && (pontuacao > 21)){
+                pontuacao -= 10;
+                num_ases--;
+            }
         }
     }
 
@@ -108,6 +112,8 @@ ler_returns ler_jogador(int tipo_jogador, Espelho_Jogador* jogador)
 
 adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador)
 {
+    int pos = 0;
+
     if (qtd_cartas < 1 || qtd_cartas > 2)
         return ADIC_QTD_CARTAS_INV;
 
@@ -123,11 +129,15 @@ adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador)
     if(ret != 0)
         return ADIC_RETIRA_CARTAS_INCORR;
 
+    while (jogador->v_mao[pos]){
+        pos++;
+    }
+    
     for (int i = 0; i < qtd_cartas; i++) {
 
-       if(jogador->v_mao[i] == NULL)
+       if(jogador->v_mao[i+pos] == NULL)
        {
-          jogador->v_mao[i] = v_aux_cartas[i];
+          jogador->v_mao[i+pos] = v_aux_cartas[i];
        }
         
     }
