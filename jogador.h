@@ -299,6 +299,33 @@ Condições de acoplamento:
 
 inicializa_returns inicializa_jogador(Espelho_Jogador* player, Espelho_Jogador* dealer);
 
-int free_jogadores();
+/*
+Objetivo:
+    Liberar toda a memoria alocada dinamicamente para as cartas e jogadores, e resetar o estado do modulo Jogador.
+
+Descricao:
+    1. A funcao percorre o vetor de ponteiros de cartas dos jogadores e o vetor de jogadores.
+    2. Para cada ponteiro de carta valido, a função chama free() para liberar a memoria alocada individualmente.
+    3. Apos liberar toda a memoria, reseta o estado do modulo para "nao inicializado", a fim de prevenir erros.
+    4. Esta funcao deve ser chamada ao final do jogo para evitar vazamentos de memoria 
+
+Acoplamento:
+- Parametros:
+    Nenhum.
+
+- Retorno:
+    0 caso os jogadores sejam liberados corretamente.
+    1 caso os jogadores não estejam inicializados.
+
+Condicao de acoplamento:
+- Assertiva de entrada:
+    Nenhuma.
+
+- Assertiva de saida:
+    1. Toda a memoria que foi alocada dinamicamente para as cartas e jogadores devolvida ao sistema.
+    2. O modulo Jogadore e logicamente resetado ao seu estado "nao inicializado", prevenindo o uso de ponteiros agora invalidos.
+*/
+
+int free_jogadores(void);
 
 #endif 
