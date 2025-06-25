@@ -31,16 +31,18 @@ Acoplamento:
 
  - Retornos:
    0 se menu executado com sucesso;
-   -1 caso ocorra erro ao obter a escolha.
+   -1 se *escolha for NULL ou resume inválido.
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
    *escolha deve ser um ponteiro válido.
-   resume deve ser 0 ou 1.
+   resume ∈ {0, 1}.
 
  - Assertivas de Saída:
    *escolha recebe 0 (novo jogo), 1 (continuar), ou 2 (sair).
-*/
+
+  */
+
 int menu_principal(int* escolha, int resume);
 
 /*
@@ -70,6 +72,7 @@ Condições de Acoplamento:
    Se tipo_jogador == 0, *jogada ∈ {0, 1, 2}.
    Se tipo_jogador == 1, apenas exibe cartas.
 */
+
 int interface_rodada(int tipo_jogador, int aposta, int* jogada);
 
 /*
