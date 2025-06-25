@@ -463,7 +463,18 @@ void print_resultado(const char* nome_teste, int sucesso) {
 
 void teste_inicializa_jogadores() {
     printf("\n--- Testando inicializa_jogador ---\n");
-    Espelho_Jogador p, d;
+    Espelho_Jogador jogadores[2], p, d;
+
+    jogadores[0].dinheiro_total = 2500;
+    jogadores[1].dinheiro_total = 0;
+
+    // Inicializa mãos dos jogadores como vazias
+    for (int i = 0; i < 11; i++) {
+      jogadores[0].v_mao[i] = NULL;
+      jogadores[1].v_mao[i] = NULL;
+    }
+    p = jogadores[0];
+    d = jogadores[1];
 
     inicializa_returns res = inicializa_jogador(&p, &d);
     print_resultado("Inicializacao com sucesso\n", res == INICIA_JOGADORES_INIC_CORR);
@@ -586,11 +597,6 @@ void teste_limpa_mao() {
   // Teste 2: Falha com jogador invalido
   res = limpa_mao(5);
   print_resultado("Falha ao limpar mao de jogador invalido\n", res == LIMPA_TIPO_JOGADOR_INVAL);
-
-  free(d.v_mao[0]);
-  d.v_mao[0] = NULL;
-  free(p.v_mao[0]);
-  p.v_mao[0] = NULL;
 }
 /////////
 
