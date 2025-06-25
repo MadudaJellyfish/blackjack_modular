@@ -118,7 +118,7 @@ adic_returns adiciona_carta(int qtd_cartas, int tipo_jogador)
         return ADIC_QTD_CARTAS_INV;
 
     if (tipo_jogador < 0 || tipo_jogador > 1)
-        return ADIC_JOGADOR_INIC_INCORR;
+        return ADIC_JOGADOR_INVAL;
 
     Jogador* jogador = NULL; // Aqui você deve obter o jogador correto baseado no tipo_jogador
     jogador = &v_true_jogadores[tipo_jogador];
