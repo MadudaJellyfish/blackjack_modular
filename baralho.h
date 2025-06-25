@@ -158,5 +158,30 @@ Condicao de acoplamento:
     2. Se a funcao retornar 1, o baralho tem menos de 20 cartas e precisa reembaralhar
     3. Se a funcao retornar 2 o baralho nao foi inicializado corretamente
  */
+void libera_baralho(void);
+/*
+Objetivo:
+    Resetar o estado do modulo Baralho, marcando-o como nao inicializado.
 
+Descricao:
+    1. Esta funcao redefine a variavel de estado interna do modulo para sua condicao inicial.
+    2. Ela deve ser chamada ao final do jogo para garantir um encerramento limpo,
+       impedindo o uso do baralho até que ele seja inicializado novamente.
+    3. Como o baralho usa memória estática, esta função nao libera memoria com free,
+       apenas redefine o estado logico do modulo.
+
+Acoplamento:
+- Parametros:
+    Nenhum.
+
+- Retorno:
+    Nenhum (void).
+
+Condicao de acoplamento:
+- Assertiva de entrada:
+    Nenhuma.
+
+- Assertiva de saida:
+    1. O modulo Baralho e logicamente resetado ao seu estado "nao inicializado".
+*/
 #endif
