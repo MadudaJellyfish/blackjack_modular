@@ -52,8 +52,11 @@ int menu_principal(int* escolha, int resume) {
 }
 
 int interface_rodada(int tipo_jogador, int aposta, int* jogada) {
+    int pontuação;
     if (tipo_jogador == 0) {
         do {
+            calcula_pontuacao(0, &pontuação);
+            printf("\nPontuação: %d\n", pontuação);
             imprime_cartas(0);
             printf("Aposta atual: R$ %d\n", aposta);
             printf("0 - Manter (stand)\n1 - Comprar carta (hit)\n2 - Voltar ao menu\n");
@@ -70,9 +73,12 @@ int interface_rodada(int tipo_jogador, int aposta, int* jogada) {
         return 0;
     } else {
         imprime_msg("Turno do dealer...");
+        calcula_pontuacao(1, &pontuação);
+        printf("\nPontuação: %d\n", pontuação);
         imprime_cartas(1);
         return 0;
     }
+    printf("\n");
 }
 
 int define_aposta(int* aposta, int dinheiro_disponivel) {
