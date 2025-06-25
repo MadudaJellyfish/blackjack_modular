@@ -110,9 +110,9 @@ int baralho_vazio(void) {
     }
 }
 
-void libera_baralho(void) {
+int libera_baralho(void) {
     if (baralho.qtd_cartas == -1) {
-        return;
+        return 1;
     }
 
     // Libera a memoria de cada ponteiro de carta valido no vetor
@@ -125,4 +125,5 @@ void libera_baralho(void) {
 
     // Reseta o estado do modulo
     baralho.qtd_cartas = -1;
+    return 0;
 }
