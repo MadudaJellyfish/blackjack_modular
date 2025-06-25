@@ -47,7 +47,15 @@ int main(void) {
  
   printf("Testes de jogador concluidos com sucesso!\n");
 
-  
+  printf("Testando funcoes de interface...\n");
+  teste_interface_menu_principal();
+  teste_interface_define_aposta();
+  teste_interface_rodada();
+  teste_interface_fim();
+  teste_interface_game_over();
+  teste_interface_valor_naipe_to_string();
+  printf("Testes de interface concluidos com sucesso!\n");
+
 
 
   printf("====================================\n");
@@ -834,4 +842,104 @@ void teste_libera_baralho() {
     }
     else
       print_resultado("Falha com o baralho não inicializado.\n", 1);
+}
+
+
+/* ------------ FUNÇÕES DE TESTE DO MÓDULO INTERFACE ------------ */
+
+
+int teste_interface_menu_principal(void) {
+    printf("\n--- Testando menu_principal ---\n");
+
+    int escolha;
+    FILE* input = fopen("input_menu.txt", "w");
+    fprintf(input, "0\n2\n");
+    fclose(input);
+
+    freopen("input_menu.txt", "r", stdin);
+    int ret = menu_principal(&escolha, 1);
+    print_resultado("Chamada com resume=1, opção válida\n", ret == 0 && (escolha == 0 || escolha == 2));
+
+    freopen("input_menu.txt", "r", stdin);
+    ret = menu_principal(&escolha, 0);
+    print_resultado("Chamada com resume=0, impede opção 1\n", ret == 0 && escolha != 1);
+
+    remove("input_menu.txt");
+    return 0;
+}
+
+int teste_interface_define_aposta(void) {
+    printf("\n--- Testando define_aposta ---\n");
+
+    int aposta;
+    FILE* input = fopen("input_aposta.txt", "w");
+    fprintf(input, "100\n");
+    fclose(input);
+
+    freopen("input_aposta.txt", "r", stdin);
+    int ret = define_aposta(&aposta, 1000);
+    print_resultado("Aposta válida dentro do limite\n", ret == 0 && aposta == 100);
+
+    remove("input_aposta.txt");
+    return 0;
+}
+
+int teste_interface_rodada(void) {
+    printf("\n--- Testando interface_rodada ---\n");
+
+    Espelho_Jogador p, d;
+    inicializa_jogador(&p, &d);
+    inicializa_baralho(NULL, 0);
+
+    int jogada;
+    FILE* input = fopen("input_rodada.txt", "w");
+    fprintf(input, "1\n0\n");
+    fclose(input);
+
+    freopen("input_rodada.txt", "r", stdin);
+    int ret = interface_rodada(0, 200, &jogada);
+    print_resultado("Jogador escolhe 'comprar' depois 'stand'\n", ret == 0 && (jogada == 1 || jogada == 0));
+
+    ret = interface_rodada(1, 200, &jogada);
+    print_resultado("Dealer apenas imprime estado da rodada\n", ret == 0);
+
+    remove("input_rodada.txt");
+    return 0;
+}
+
+int teste_interface_fim(void) {
+    printf("\n--- Testando interface_fim ---\n");
+
+    int continuar;
+    FILE* input = fopen("input_fim.txt", "w");
+    fprintf(input, "1\n0\n");
+    fclose(input);
+
+    freopen("input_fim.txt", "r", stdin);
+    int ret = interface_fim(2, 100, &continuar);
+    print_resultado("Vitória com aposta normal\n", ret == 0 && continuar == 1);
+
+    freopen("input_fim.txt", "r", stdin);
+    ret = interface_fim(0, 100, &continuar);
+    print_resultado("Empate\n", ret == 0 && continuar == 1);
+
+    remove("input_fim.txt");
+    return 0;
+}
+
+int teste_interface_game_over(void) {
+    printf("\n--- Testando game_over ---\n");
+    int ret = game_over();
+    print_resultado("Mensagem de fim exibida\n", ret == 0);
+    return 0;
+}
+
+int teste_interface_valor_naipe_to_string(void) {
+    printf("\n--- Testando naipe_to_string e valor_to_string ---\n");
+
+    print_resultado("Copas -> 'copas'\n", strcmp(naipe_to_string(1), "copas") == 0);
+    print_resultado("Valor 1 -> 'A'\n", strcmp(valor_to_string(1), "A") == 0);
+    print_resultado("Valor 10 -> '10'\n", strcmp(valor_to_string(10), "10") == 0);
+    print_resultado("Valor 12 -> 'Q'\n", strcmp(valor_to_string(12), "Q") == 0);
+    return 0;
 }
