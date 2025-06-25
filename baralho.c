@@ -24,6 +24,9 @@ int inicializa_baralho(Carta* cartas_salvas[], int qtd_cartas) {
         for (int i = 0; i < qtd_cartas; i++) {
             baralho.v_cartas[i] = cartas_salvas[i];
         }
+        for(int i = qtd_cartas; i < 52; i++){
+            baralho.v_cartas[i] = NULL;
+        }
     }
     //Nao tem cartas salvas de outro jogo
     else {
@@ -54,6 +57,9 @@ int obter_cartas_restantes(Carta* v_cartas_saida[], int* qtd_saida) {
     *qtd_saida = baralho.qtd_cartas;
     for (int i = 0; i<baralho.qtd_cartas;i++) {
         v_cartas_saida[i] = baralho.v_cartas[i];
+    }
+    for (int i = baralho.qtd_cartas; i < 52; i++){
+        v_cartas_saida[i] = NULL;
     }
     return 0;
 }
