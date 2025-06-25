@@ -8,6 +8,8 @@
 #include "teste_partida.h"
 #include <string.h>
 
+void print_resultado(const char* nome_teste, int sucesso);
+
 int main(void) {
 
   printf("[INICIANDO TESTE DA APLICACAO]\n");
@@ -30,6 +32,7 @@ int main(void) {
   teste_retira_cartas();
   teste_embaralha_cartas();
   teste_baralho_vazio();
+  teste_libera_baralho();
   printf("Testes de baralho concluidos com sucesso!\n");
 
 
@@ -40,6 +43,7 @@ int main(void) {
   teste_altera_dinheiro();
   teste_revela_cartas();
   teste_limpa_mao();
+  teste_free_jogador();
  
   printf("Testes de jogador concluidos com sucesso!\n");
 
@@ -48,7 +52,8 @@ int main(void) {
 
   printf("====================================\n");
 
-
+  libera_baralho();
+  free_jogadores();
   return 0;
 }
 
@@ -56,23 +61,26 @@ int teste_inicia_jogo(void){
   int resume, aposta, ret;
   ret = inicia_jogo(&resume, &aposta);
   if (ret != INICIA_JOGO_SEM_ARQUIVO){
-    printf("Erro no primeiro caso de inicia_jogo!\n");
-    return 0;
+    print_resultado("Falha com arquivo db.json não existente.\n", 0);
   }
+  else
+    print_resultado("Falha com arquivo db.json não existente.\n", 1);
 
   FILE* file = fopen("db.json", "w");
   fclose(file);
   ret = inicia_jogo(NULL, &aposta);
   if (ret != INICIA_JOGO_PARAM_RESUME_INVALIDO){
-    printf("Erro no segundo caso de inicia_jogo!\n");
-    return 0;
+    print_resultado("Falha com parâmetro resume inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro resume inválido.\n", 1);
 
   ret = inicia_jogo(&resume, NULL);
   if (ret != INICIA_JOGO_PARAM_APOSTA_INVALIDO){
-    printf("Erro no terceiro caso de inicia_jogo!\n");
-    return 0;
+    print_resultado("Falha com parâmetro aposta inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro aposta inválido.\n", 1);
 
   FILE* file2 = fopen("db.json", "w");
   fwrite("batata", sizeof(char), 7, file2);
@@ -80,9 +88,10 @@ int teste_inicia_jogo(void){
 
   ret = inicia_jogo(&resume, &aposta);
   if (ret != INICIA_JOGO_ARQUIVO_INVALIDO){
-    printf("Erro no quarto caso de inicia_jogo!\n");
-    return 0;
+    print_resultado("Falha com arquivo em formato inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com arquivo em formato inválido.\n", 1);
 
   FILE *f_origem = fopen("db_mock.json", "rb");
   FILE *f_destino = fopen("db.json", "wb");
@@ -99,11 +108,12 @@ int teste_inicia_jogo(void){
 
   ret = inicia_jogo(&resume, &aposta);
   if (ret != INICIA_JOGO_OK){
-    printf("Erro no quinto caso de inicia_jogo!\n");
-    return 0;
+    print_resultado("Chama função normalmente.\n", 0);
   }
+  else
+    print_resultado("Chama função normalmente.\n", 1);
   
-  printf("Teste de inicia_jogo OK!\n");
+  printf("Teste de inicia_jogo OK!\n\n");
   return 0;
 }
 
@@ -113,38 +123,43 @@ int teste_chama_menu(void){
   resume = 1;
   ret = chama_menu(NULL, resume);
   if (ret != CHAMA_MENU_PARAM_ESCOLHA_INVALIDO){
-    printf("Erro no primeiro caso de chama_menu!\n");
-    return 0;
+    print_resultado("Falha com parâmetro escolha inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro escolha inválido.\n", 1);
   
   ret = chama_menu(&escolha, 2);
   if (ret != CHAMA_MENU_PARAM_RESUME_INVALIDO){
-    printf("Erro no segundo caso de chama_menu!\n");
-    return 0;
+    print_resultado("Falha com parâmetro resume inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro resume inválido.\n", 1);
 
-  printf("Chama com escolha continuar.\n");
+  printf("\nChama com escolha continuar.");
   ret = chama_menu(&escolha, 1);
   if (ret != CHAMA_MENU_OK){
-    printf("Erro no terceiro caso de chama_menu!\n");
-    return 0;
+    print_resultado("Funciona ao chamar continuar com dados.\n", 0);
   }
+  else
+    print_resultado("Funciona ao chamar continuar com dados.\n", 1);
 
-  printf("Chama com escolha novo jogo.\n");
+  printf("\nChama com escolha novo jogo.");
   ret = chama_menu(&escolha, 1);
   if (ret != CHAMA_MENU_OK){
-    printf("Erro no quarto caso de chama_menu!\n");
-    return 0;
+    print_resultado("Funciona ao chamar novo jogo.\n", 0);
   }
+  else
+    print_resultado("Funciona ao chamar novo jogo.\n", 1);
 
-  printf("Chama com escolha sair.\n");
+  printf("\nChama com escolha sair.");
   ret = chama_menu(&escolha, 1);
   if (ret != CHAMA_MENU_OK){
-    printf("Erro no quinto caso de chama_menu!\n");
-    return 0;
+    print_resultado("Funciona ao chamar sair.\n", 0);
   }
+  else
+    print_resultado("Funciona ao chamar sair.\n", 1);
 
-  printf("Teste de chama_menu OK\n");
+  printf("Teste de chama_menu OK\n\n");
   return 0;
 }
 
@@ -154,15 +169,17 @@ int teste_fecha_jogo(void){
   aposta = -1;
   ret = fecha_jogo(aposta, 1);
   if (ret != FECHA_JOGO_PARAM_APOSTA_INVALIDO){
-    printf("Erro no primeiro caso de fecha_jogo!\n");
-    return 0;
+    print_resultado("Falha com parâmetro aposta inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro aposta inválido.\n", 1);
   
   ret = fecha_jogo(2500, 2);
   if (ret != FECHA_JOGO_PARAM_RESUME_INVALIDO){
-    printf("Erro no segundo caso de fecha_jogo!\n");
-    return 0;
+    print_resultado("Falha com parâmetro resume inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro resume inválido.\n", 1);
 
   FILE *f_origem = fopen("db_mock.json", "rb");
   FILE *f_destino = fopen("db.json", "wb");
@@ -180,33 +197,37 @@ int teste_fecha_jogo(void){
   inicia_jogo(&resume, &aposta);
   ret = fecha_jogo(aposta, resume);
   if (ret != FECHA_JOGO_OK){
-    printf("Erro no terceiro caso de fecha_jogo!\n");
-    return 0;
+    print_resultado("Funciona ao iniciar o jogo com dados anteriores e chamar a função escolhendo salvar.\n", 0);
   }
+  else
+    print_resultado("Funciona ao iniciar o jogo com dados anteriores e chamar a função escolhendo salvar.\n", 1);
 
   resume = 0;
   ret = fecha_jogo(aposta, resume);
   if (ret != FECHA_JOGO_OK){
-    printf("Erro no quarto caso de fecha_jogo!\n");
-    return 0;
+    print_resultado("Funciona ao iniciar o jogo com dados anteriores e chamar a função escolhendo não salvar.\n", 0);
   }
+  else
+    print_resultado("Funciona ao iniciar o jogo com dados anteriores e chamar a função escolhendo não salvar.\n", 1);
 
   inicia_jogo(&resume, &aposta);
   resume = 1;
   ret = fecha_jogo(aposta, resume);
   if (ret != FECHA_JOGO_OK){
-    printf("Erro no quinto caso de fecha_jogo!\n");
-    return 0;
+    print_resultado("Funciona ao iniciar o jogo sem dados anteriores e chamar a função escolhendo salvar.\n", 0);
   }
+  else
+    print_resultado("Funciona ao iniciar o jogo sem dados anteriores e chamar a função escolhendo salvar.\n", 1);
 
   resume = 0;
   ret = fecha_jogo(aposta, resume);
   if (ret != FECHA_JOGO_OK){
-    printf("Erro no sexto caso de fecha_jogo!\n");
-    return 0;
+    print_resultado("Funciona ao iniciar o jogo sem dados anteriores e chamar a função escolhendo não salvar.\n", 0);
   }
+  else
+    print_resultado("Funciona ao iniciar o jogo sem dados anteriores e chamar a função escolhendo não salvar.\n", 1);
 
-  printf("Teste de fecha_jogo OK\n");
+  printf("Teste de fecha_jogo OK\n\n");
   return 0;
 }
 
@@ -215,17 +236,19 @@ int teste_inicia_rodada(void){
 
   ret = inicia_rodada(NULL);
   if (ret != INICIA_PARAM_APOSTA_INVALIDO){
-    printf("Erro no primeiro caso de inicia_rodada!\n");
-    return 0;
+    print_resultado("Falha com parâmetro aposta inválido.\n", 0);
   }
+  else 
+    print_resultado("Falha com parâmetro aposta inválido.\n", 1);
 
   ret = inicia_rodada(&aposta);
   if (ret != INICIA_OK){
-    printf("Erro no segundo caso de inicia_rodada!\n");
-    return 0;
+    print_resultado("Funciona com parâmetro válido.\n", 0);
   }
+  else
+    print_resultado("Funciona com parâmetro válido.\n", 1);
 
-  printf("Teste de inicia_rodada OK\n");
+  printf("Teste de inicia_rodada OK\n\n");
   return 0;
 }
 
@@ -235,38 +258,43 @@ int teste_turno_usuario(void){
 
   ret = turno_usuario(-3, &voltar_menu);
   if (ret != USUARIO_PARAM_APOSTA_INVALIDO){
-    printf("Erro no primeiro caso de turno_usuario!\n");
-    return 0;
+    print_resultado("Falha com parâmetro aposta inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro aposta inválido.\n", 1);
 
   ret = turno_usuario(50, NULL);
   if (ret != USUARIO_PARAM_VOLTAR_MENU_INVALIDO){
-    printf("Erro no segundo caso de turno_usuario!\n");
-    return 0;
+    print_resultado("Falha com parâmetro voltar_menu inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro voltar_menu inválido.\n", 1);
  
-  printf("Compra uma carta e depois escolhe stand.\n");
+  printf("\nCompra uma carta e depois escolhe stand.");
   ret = turno_usuario(50, &voltar_menu);
   if (ret != USUARIO_OK){
-    printf("Erro no terceiro ou quarto caso de turno_usuario!\n");
-    return 0;
+    print_resultado("Funciona ao comprar uma carta e escolher stand.\n", 0);
   }
+  else
+    print_resultado("Funciona ao comprar uma carta e escolher stand.\n", 1);
 
-  printf("Escolhe voltar ao menu.\n");
+  printf("\nEscolhe voltar ao menu.");
   ret = turno_usuario(50, &voltar_menu);
   if (ret != USUARIO_OK || voltar_menu != 1){
-    printf("Erro no quinto caso de turno_usuario!\n");
-    return 0;
+    print_resultado("Funciona ao escolher voltar ao menu.\n", 0);
   }
+  else
+    print_resultado("Funciona ao escolher voltar ao menu.\n", 1);
 
-  printf("Compra até ter 21 ou mais.\n");
+  printf("\nCompra até ter 21 ou mais.");
   ret = turno_usuario(50, &voltar_menu);
   if (ret != USUARIO_OK){
-    printf("Erro no sexto caso de turno_usuario!\n");
-    return 0;
+    print_resultado("Funciona ao comprar uma carta até ter 21 ou mais pontos.\n", 0);
   }
+  else
+    print_resultado("Funciona ao comprar uma carta até ter 21 ou mais pontos.\n", 1);
 
-  printf("Teste de turno_usuario OK!\n");
+  printf("Teste de turno_usuario OK!\n\n");
   return 0;
 }
 
@@ -276,20 +304,22 @@ int teste_turno_dealer(void){
 
   ret = turno_dealer(-3);
   if (ret != DEALER_PARAM_APOSTA_INVALIDO){
-    printf("Erro no primeiro caso de turno_dealer!\n");
-    return 0;
+    print_resultado("Falha com parâmetro aposta inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro aposta inválido.\n", 1);
 
   ret = turno_dealer(50);
   if (ret != DEALER_OK){
-    printf("Erro no segundo caso de turno_dealer!\n");
-    return 0;
+    print_resultado("Funciona ao chamar com parâmetros válidos.\n", 0);
   }
+  else
+    print_resultado("Funciona ao chamar com parâmetros válidos.\n", 1);
 
-  printf("Teste de turno_dealer OK!\n");
+  printf("Teste de turno_dealer OK!\n\n");
   return 0;
 }
-//fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume);
+
 int teste_fim_de_rodada(void){
   int ret, aposta, deseja_continuar, resume;
   Espelho_Jogador jogadores[2], jogadorAux;
@@ -297,21 +327,24 @@ int teste_fim_de_rodada(void){
 
   ret = fim_de_rodada(-3, &deseja_continuar, &resume);
   if (ret != FIM_PARAM_APOSTA_INVALIDO){
-    printf("Erro no primeiro caso de fim_de_rodada!\n");
-    return 0;
+    print_resultado("Falha com parâmetro aposta inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro aposta inválido.\n", 1);
 
   ret = fim_de_rodada(50, NULL, &resume);
   if (ret != FIM_PARAM_CONTINUAR_INVALIDO){
-    printf("Erro no segundo caso de fim_de_rodada!\n");
-    return 0;
+    print_resultado("Falha com parâmetro deseja_continuar inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro deseja_continuar inválido.\n", 1);
 
   ret = fim_de_rodada(50, &deseja_continuar, NULL);
   if (ret != FIM_PARAM_RESUME_INVALIDO){
-    printf("Erro no terceiro caso de fim_de_rodada!\n");
-    return 0;
+    print_resultado("Falha com parâmetro resume inválido.\n", 0);
   }
+  else
+    print_resultado("Falha com parâmetro resume inválido.\n", 1);
 
   jogadores[0].dinheiro_total = 2500;
   jogadores[1].dinheiro_total = 0;
@@ -332,9 +365,10 @@ int teste_fim_de_rodada(void){
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
   if (ret != FIM_OK || jogadorAux.dinheiro_total != 2500){
-    printf("Erro no quarto caso de fim_de_rodada!\n");
-    return 0;
+    print_resultado("Funciona com o dealer com pontuação que ganha do usuário.\n", 0);
   }
+  else
+    print_resultado("Funciona com o dealer com pontuação que ganha do usuário.\n", 1);
 
   jogadores[0].v_mao[0] = (Carta*)malloc(sizeof(Carta));
   jogadores[0].v_mao[0]->naipe = 0;
@@ -346,9 +380,10 @@ int teste_fim_de_rodada(void){
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
   if (ret != FIM_OK || jogadorAux.dinheiro_total != 2550){
-    printf("Erro no quinto caso de fim_de_rodada!\n");
-    return 0;
+    print_resultado("Funciona com o dealer com pontuação que empata com o usuário.\n", 0);
   }
+  else
+    print_resultado("Funciona com o dealer com pontuação que empata com o usuário.\n", 1);
 
   jogadores[0].v_mao[1] = (Carta*)malloc(sizeof(Carta));
   jogadores[0].v_mao[1]->naipe = 0;
@@ -360,9 +395,10 @@ int teste_fim_de_rodada(void){
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
   if (ret != FIM_OK || jogadorAux.dinheiro_total != 2600){
-    printf("Erro no sexto caso de fim_de_rodada!\n");
-    return 0;
+    print_resultado("Funciona com o dealer com pontuação que perde do usuário.\n", 0);
   }
+  else
+    print_resultado("Funciona com o dealer com pontuação que perde do usuário.\n", 1);
 
   jogadores[0].v_mao[2] = (Carta*)malloc(sizeof(Carta));
   jogadores[0].v_mao[2]->naipe = 0;
@@ -374,9 +410,10 @@ int teste_fim_de_rodada(void){
   ret = fim_de_rodada(50, &deseja_continuar, &resume);
   ler_jogador(0, &jogadorAux);
   if (ret != FIM_OK || jogadorAux.dinheiro_total != 2625){
-    printf("Erro no sétimo caso de fim_de_rodada!\n");
-    return 0;
+    print_resultado("Funciona com o usuário com pontuação de blackjack que ganha do dealer.\n", 0);
   }
+  else
+    print_resultado("Funciona com o usuário com pontuação de blackjack que ganha do dealer.\n", 1);
 
   Carta* baralho[52];
   for (int i = 0; i<52; i++)
@@ -387,9 +424,10 @@ int teste_fim_de_rodada(void){
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);  
   if (ret != FIM_OK){
-    printf("Erro no oitavo caso de fim_de_rodada!\n");
-    return 0;
+    print_resultado("Funciona com o baralho iniciado com 20 cartas.\n", 0);
   }
+  else
+    print_resultado("Funciona com o baralho iniciado com 20 cartas.\n", 1);
 
   free(jogadores[0].v_mao[2]);
   jogadores[0].v_mao[2] = NULL;
@@ -402,13 +440,14 @@ int teste_fim_de_rodada(void){
 
   ret = fim_de_rodada(50, &deseja_continuar, &resume);  
   if (ret != FIM_OK){
-    printf("Erro no nono caso de fim_de_rodada!\n");
-    return 0;
+    print_resultado("Funciona com o usuário perdendo e com 0 dinheiros.\n", 0);
   }
+  else
+    print_resultado("Funciona com o usuário perdendo e com 0 dinheiros.\n", 1);
 
   free(jogadores[1].v_mao[0]);
 
-  printf("Teste de fim_de_rodada OK!\n");
+  printf("Teste de fim_de_rodada OK!\n\n");
   return 0;
 }
 
@@ -429,11 +468,19 @@ int teste_libera_jogador(void){
 
   ret = libera_jogador();  
   if (ret != LIBERA_JOGADOR_OK){
-    printf("Erro no primeiros caso de libera_jogador!\n");
-    return 0;
+    print_resultado("Funciona com o jogador inicializado.\n", 0);
   }
+  else
+    print_resultado("Funciona com o jogador inicializado.\n", 1);
 
-  printf("Teste de libera_jogador OK!\n");
+  ret = libera_jogador();  
+  if (ret != LIBERA_JOGADOR_N_INIC){
+    print_resultado("Falha com os jogadores não inicialidados.\n", 0);
+  }
+  else
+    print_resultado("Falha com os jogadores não inicialidados.\n", 1);
+
+  printf("Teste de libera_jogador OK!\n\n");
   return 0;
 }
 
@@ -444,11 +491,19 @@ int teste_free_baralho(void){
   
   ret = free_baralho();  
   if (ret != FREE_BARALHO_OK){
-    printf("Erro no primeiros caso de free_baralho!\n");
-    return 0;
+    print_resultado("Funciona com o baralho inicializado.\n", 0);
   }
+  else
+    print_resultado("Funciona com o baralho inicializado.\n", 1);
 
-  printf("Teste de free_baralho OK!\n");
+  ret = free_baralho();  
+  if (ret != FREE_BARALHO_N_INIC){
+    print_resultado("Falha com o baralho não inicializado.\n", 0);
+  }
+  else
+    print_resultado("Falha com o baralho não inicializado.\n", 1);
+
+  printf("Teste de free_baralho OK!\n\n");
   return 0;
 }
 
@@ -489,6 +544,7 @@ void teste_adiciona_carta() {
     printf("\n--- Testando adiciona_carta ---\n");
     Espelho_Jogador p, d;
     inicializa_jogador(&p, &d);
+    inicializa_baralho(NULL, 0);
 
     // Teste 1: Adicionar 2 cartas com sucesso
     adic_returns res = adiciona_carta(2, 0);
@@ -597,6 +653,50 @@ void teste_limpa_mao() {
   // Teste 2: Falha com jogador invalido
   res = limpa_mao(5);
   print_resultado("Falha ao limpar mao de jogador invalido\n", res == LIMPA_TIPO_JOGADOR_INVAL);
+}
+
+void teste_free_jogador() {
+    printf("\n--- Testando free_jogador ---\n");
+    int ret;
+    Espelho_Jogador p, d;
+
+    p.dinheiro_total = 2500;
+    d.dinheiro_total = 0;
+
+  // Inicializa mãos dos jogadores como vazias
+  for (int i = 0; i < 11; i++) {
+      p.v_mao[i] = NULL;
+      d.v_mao[i] = NULL;
+  }
+
+  d.v_mao[0] = (Carta*)malloc(sizeof(Carta));
+  d.v_mao[0]->naipe = 0;
+  d.v_mao[0]->valor_naipe = 1;
+  d.v_mao[0]->revelada = 1;
+
+  p.v_mao[0] = (Carta*)malloc(sizeof(Carta));
+  p.v_mao[0]->naipe = 0;
+  p.v_mao[0]->valor_naipe = 1;
+  p.v_mao[0]->revelada = 1;
+
+  inicializa_jogador(&p, &d);
+
+   
+  // Teste 1: Lberar jogadores iniciados
+  ret = libera_jogador();  
+  if (ret != 0){
+    print_resultado("Funciona com o jogador inicializado.\n", 0);
+  }
+  else
+    print_resultado("Funciona com o jogador inicializado.\n", 1);
+
+  // Teste 2: Falha com jogador não iniciado
+  ret = libera_jogador();  
+  if (ret != 1){
+    print_resultado("Falha com o jogador não inicializado.\n", 0);
+  }
+  else
+    print_resultado("Falha com o jogador não inicializado.\n", 1);
 }
 /////////
 
@@ -713,4 +813,25 @@ void teste_baralho_vazio() {
     retira_cartas(mao, 1); // 20 - 1 = 19
     ret = baralho_vazio();
     print_resultado("Baralho com 19 cartas e considerado vazio (retorno 1)\n", ret == 1);
+}
+
+void teste_libera_baralho() {
+    printf("\n--- Testando libera_baralho ---\n");
+
+    // Teste 1: Baralho inicializado
+    inicializa_baralho(NULL, 0); // 52 cartas
+    int ret = free_baralho();  
+    if (ret != 0){
+      print_resultado("Funciona com o baralho inicializado.\n", 0);
+    }
+    else
+      print_resultado("Funciona com o baralho inicializado.\n", 1);
+
+    // Teste 2: Baralho não inicializado
+    ret = free_baralho();  
+    if (ret != 1){
+        print_resultado("Falha com o baralho não inicializado.\n", 0);
+    }
+    else
+      print_resultado("Falha com o baralho não inicializado.\n", 1);
 }
