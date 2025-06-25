@@ -171,6 +171,76 @@ Casos Valorados:
     2. Chamada com o baralho não inicializado
 */
 
+/*
+===============================================================================
+Testes do módulo INTERFACE
+===============================================================================
+*/
+
+int teste_interface_menu_principal(void);
+/*
+Casos Abstratos:
+    1. Escolha válida com jogo salvo.
+    2. Escolha inválida quando resume = 0.
+
+Casos Valorados:
+    1. Entrada 0 ou 2 aceita com resume = 1.
+    2. Entrada 1 rejeitada com resume = 0.
+*/
+
+int teste_interface_define_aposta(void);
+/*
+Casos Abstratos:
+    1. Entrada válida.
+    2. Valor acima do disponível.
+
+Casos Valorados:
+    1. Apostar 100 quando há 1000 disponíveis.
+*/
+
+int teste_interface_rodada(void);
+/*
+Casos Abstratos:
+    1. Jogador escolhe 'comprar', 'stand' ou 'voltar'.
+    2. Dealer apenas exibe cartas.
+
+Casos Valorados:
+    1. Jogador insere 1, depois 0.
+    2. Dealer imprime cartas.
+*/
+
+int teste_interface_fim(void);
+/*
+Casos Abstratos:
+    1. Resultado: vitória, derrota, blackjack, empate.
+    2. Desejo de continuar (0 ou 1).
+
+Casos Valorados:
+    1. Jogador venceu com aposta normal.
+    2. Empate.
+*/
+
+int teste_interface_game_over(void);
+/*
+Casos Abstratos:
+    1. Exibição de mensagem.
+
+Casos Valorados:
+    1. Retorno de sucesso após mensagem.
+*/
+
+int teste_interface_valor_naipe_to_string(void);
+/*
+Casos Abstratos:
+    1. Tradução de valores e naipes.
+
+Casos Valorados:
+    1. Valor 1 → "A"
+    2. Valor 12 → "Q"
+    3. Naipe 1 → "copas"
+*/
+
+
 ///
 
 #endif
