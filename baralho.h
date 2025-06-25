@@ -158,7 +158,7 @@ Condicao de acoplamento:
     2. Se a funcao retornar 1, o baralho tem menos de 20 cartas e precisa reembaralhar
     3. Se a funcao retornar 2 o baralho nao foi inicializado corretamente
  */
-void libera_baralho(void);
+int libera_baralho(void);
 /*
 Objetivo:
     Liberar toda a memoria alocada dinamicamente para as cartas e resetar o estado do modulo Baralho.
@@ -174,7 +174,8 @@ Acoplamento:
     Nenhum.
 
 - Retorno:
-    Nenhum (void).
+    0 caso o baralho libere corretamente.
+    1 caso o baralho não esteja inicializado.
 
 Condicao de acoplamento:
 - Assertiva de entrada:
