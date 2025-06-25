@@ -32,6 +32,8 @@ void imprime_msg(const char* msg) {
 }
 
 int menu_principal(int* escolha, int resume) {
+    if (escolha == NULL || (resume != 0 && resume != 1)) return -1;
+
     do {
         printf("\n=== BLACKJACK ===\n");
         printf("0 - Novo Jogo\n");
@@ -49,6 +51,7 @@ int menu_principal(int* escolha, int resume) {
     } while (*escolha < 0 || *escolha > 2 || (!resume && *escolha == 1));
     return 0;
 }
+
 
 int interface_rodada(int tipo_jogador, int aposta, int* jogada) {
     int pontuacao;
