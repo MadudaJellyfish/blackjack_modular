@@ -107,6 +107,24 @@ Casos Valorados:
     9. Chama com o usuário perdendo e com 0 dinheiros
 */
 
+int teste_libera_jogador(void);
+/*
+Casos Abstratos:
+    1. Chamada da função
+
+Casos Valorados:
+    1. Chamada da função
+*/
+
+int teste_free_baralho(void);
+/*
+Casos Abstratos:
+    1. Chamada da função
+
+Casos Valorados:
+    1. Chamada da função
+*/
+
 void teste_inicializa_jogadores(void);
 
 void teste_calcula_pontuacao(void);
