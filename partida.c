@@ -369,11 +369,15 @@ usuario_cond_ret turno_usuario(int aposta, int* voltar_menu){
         }
         else if (jogada == 2){ // Voltar ao menu
             *voltar_menu = 1;
-            break;
+            return USUARIO_OK;
         }
     }
+    calcula_pontuacao(0, &pontuacao);
     printf("\nPontuação: %d\n", pontuacao);
     imprime_cartas(0);
+    calcula_pontuacao(1, &pontuacao);
+    printf("\nPontuação: %d\n", pontuacao);
+    imprime_cartas(1);
 
     return USUARIO_OK;
 }
@@ -403,6 +407,10 @@ dealer_cond_ret turno_dealer(int aposta){
         if (revela_cartas(1) != CARTAS_REVEL_CORR)
             return DEALER_REVELA_CARTAS_FALHA;
     }
+    calcula_pontuacao(0, &pontuacao);
+    printf("\nPontuação: %d\n", pontuacao);
+    imprime_cartas(0);
+    calcula_pontuacao(1, &pontuacao);
     printf("\nPontuação: %d\n", pontuacao);
     imprime_cartas(1);
 
@@ -413,6 +421,7 @@ fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume){
     int resultado;
     int alt = aposta;
     Espelho_Jogador jogadores[2];
+    *resume = 1;
 
     if (aposta < 0 || aposta > 999999) // A aposta não pode ser negativa nem acima de 999999
         return FIM_PARAM_APOSTA_INVALIDO;
