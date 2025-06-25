@@ -530,7 +530,7 @@ int parse_valor(const char *str) {
     return atoi(str); // valores numéricos de 2 a 10
 }
 
-libera_jogador_cond_ret libera_jogadores(void)
+libera_jogador_cond_ret libera_jogador(void)
 {
     if(free_jogadores())
         return LIBERA_JOGADOR_N_INIC;
