@@ -108,8 +108,7 @@ int teste_inicia_jogo(void){
 }
 
 int teste_chama_menu(void){
-  int resume, ret;
-  int* escolha = (int*)malloc(sizeof(int));
+  int resume, ret, escolha;
 
   resume = 1;
   ret = chama_menu(NULL, resume);
@@ -118,40 +117,40 @@ int teste_chama_menu(void){
     return 0;
   }
   
-  *escolha = 1;
-  ret = chama_menu(escolha, 2);
+  ret = chama_menu(&escolha, 2);
   if (ret != CHAMA_MENU_PARAM_RESUME_INVALIDO){
     printf("Erro no segundo caso de chama_menu!\n");
     return 0;
   }
 
-  ret = chama_menu(escolha, 1);
+  printf("Chama com escolha continuar.\n");
+  ret = chama_menu(&escolha, 1);
   if (ret != CHAMA_MENU_OK){
     printf("Erro no terceiro caso de chama_menu!\n");
     return 0;
   }
 
-  *escolha = 2;
-  ret = chama_menu(escolha, 1);
+  printf("Chama com escolha novo jogo.\n");
+  ret = chama_menu(&escolha, 1);
   if (ret != CHAMA_MENU_OK){
     printf("Erro no quarto caso de chama_menu!\n");
     return 0;
   }
 
-  ret = chama_menu(escolha, 1);
+  printf("Chama com escolha sair.\n");
+  ret = chama_menu(&escolha, 1);
   if (ret != CHAMA_MENU_OK){
     printf("Erro no quinto caso de chama_menu!\n");
     return 0;
   }
 
   printf("Teste de chama_menu OK\n");
-  free(escolha);
   return 0;
 }
 
 int teste_fecha_jogo(void){
   int aposta, resume, ret;
-  
+
   aposta = -1;
   ret = fecha_jogo(aposta, 1);
   if (ret != FECHA_JOGO_PARAM_APOSTA_INVALIDO){
@@ -245,19 +244,22 @@ int teste_turno_usuario(void){
     printf("Erro no segundo caso de turno_usuario!\n");
     return 0;
   }
-
+ 
+  printf("Compra uma carta e depois escolhe stand.\n");
   ret = turno_usuario(50, &voltar_menu);
   if (ret != USUARIO_OK){
     printf("Erro no terceiro ou quarto caso de turno_usuario!\n");
     return 0;
   }
 
+  printf("Escolhe voltar ao menu.\n");
   ret = turno_usuario(50, &voltar_menu);
   if (ret != USUARIO_OK || voltar_menu != 1){
     printf("Erro no quinto caso de turno_usuario!\n");
     return 0;
   }
 
+  printf("Compra até ter 21 ou mais.\n");
   ret = turno_usuario(50, &voltar_menu);
   if (ret != USUARIO_OK){
     printf("Erro no sexto caso de turno_usuario!\n");
