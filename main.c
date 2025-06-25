@@ -34,6 +34,8 @@ int main(void) {
 
             turno_dealer(aposta);
             fim_de_rodada(aposta, &continuar, &resume);
+            if (continuar)
+                escolha_menu = 0;
         }
     }
     
