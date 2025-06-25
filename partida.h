@@ -369,6 +369,64 @@ Condições de Acoplamento:
    3. Os dados de baralho foram salvos corretamente no arquivo.
 */
 
- void libera_jogador();
+typedef enum {
+   LIBERA_JOGADOR_OK = 0,
+   LIBERA_JOGADOR_N_INIC = 1
+} libera_jogador_cond_ret;
+
+libera_jogador_cond_ret libera_jogador(void);
+/*
+Objetivo:
+    Liberar toda a memoria alocada dinamicamente para as cartas e jogadores e resetar o estado do modulo Jogador.
+
+Descricao:
+    1. Função chama Free_Jogador para libera a memória alocada pelo módulo Jogador
+
+Acoplamento:
+- Parametros:
+    Nenhum.
+
+- Retorno:
+    0 caso os jogadores liberem corretamente.
+    1 caso os jogadores não estejam inicializados.
+
+Condicao de acoplamento:
+- Assertiva de entrada:
+    Nenhuma.
+
+- Assertiva de saida:
+    1. Toda a memoria que foi alocada dinamicamente para as cartas e jogadores devolvida ao sistema.
+    2. O modulo Jogadore e logicamente resetado ao seu estado "nao inicializado", prevenindo o uso de ponteiros agora invalidos.
+*/
+
+typedef enum {
+   FREE_BARALHO_OK = 0,
+   FREE_BARALHO_N_INIC = 1
+} free_baralho_cond_ret;
+
+free_baralho_cond_ret free_baralho(void);
+/*
+Objetivo:
+    Liberar toda a memoria alocada dinamicamente para as cartas e resetar o estado do modulo Baralho.
+
+Descricao:
+    1. Função chama Libera_Baralho para libera a memória alocada pelo módulo Baralho
+
+Acoplamento:
+- Parametros:
+    Nenhum.
+
+- Retorno:
+    0 caso o baralho libere corretamente.
+    1 caso o baralho não esteja inicializado.
+
+Condicao de acoplamento:
+- Assertiva de entrada:
+    Nenhuma.
+
+- Assertiva de saida:
+    1. Toda a memoria que foi alocada dinamicamente para as cartas e devolvida ao sistema.
+    2. O modulo Baralho e logicamente resetado ao seu estado "nao inicializado", prevenindo o uso de ponteiros agora invalidos.
+*/
 
 #endif
