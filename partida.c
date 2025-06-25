@@ -372,6 +372,8 @@ usuario_cond_ret turno_usuario(int aposta, int* voltar_menu){
             break;
         }
     }
+    printf("\nPontuação: %d\n", pontuacao);
+    imprime_cartas(0);
 
     return USUARIO_OK;
 }
@@ -401,6 +403,8 @@ dealer_cond_ret turno_dealer(int aposta){
         if (revela_cartas(1) != CARTAS_REVEL_CORR)
             return DEALER_REVELA_CARTAS_FALHA;
     }
+    printf("\nPontuação: %d\n", pontuacao);
+    imprime_cartas(1);
 
     return DEALER_OK;
 }
