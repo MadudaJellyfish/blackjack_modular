@@ -20,6 +20,8 @@ int main(void) {
   teste_turno_usuario();
   teste_turno_dealer();
   teste_fim_de_rodada();
+  teste_libera_jogador();
+  teste_free_baralho();
   printf("Testes de partida concluidos com sucesso!\n");
 
   printf("Testando funcoes de baralho...\n");
@@ -405,6 +407,46 @@ int teste_fim_de_rodada(void){
   free(jogadores[1].v_mao[0]);
 
   printf("Teste de fim_de_rodada OK!\n");
+  return 0;
+}
+
+int teste_libera_jogador(void){
+  int ret;
+  Espelho_Jogador jogadores[2];
+
+  jogadores[0].dinheiro_total = 2500;
+  jogadores[1].dinheiro_total = 0;
+
+  // Inicializa mãos dos jogadores como vazias
+  for (int i = 0; i < 11; i++) {
+    jogadores[0].v_mao[i] = NULL;
+    jogadores[1].v_mao[i] = NULL;
+  }
+
+  inicializa_jogador(&jogadores[0], &jogadores[1]);
+
+  ret = libera_jogador();  
+  if (ret != LIBERA_JOGADOR_OK){
+    printf("Erro no primeiros caso de libera_jogador!\n");
+    return 0;
+  }
+
+  printf("Teste de libera_jogador OK!\n");
+  return 0;
+}
+
+int teste_free_baralho(void){
+  int ret;
+
+  inicializa_baralho(NULL, 0);
+  
+  ret = free_baralho();  
+  if (ret != FREE_BARALHO_OK){
+    printf("Erro no primeiros caso de free_baralho!\n");
+    return 0;
+  }
+
+  printf("Teste de free_baralho OK!\n");
   return 0;
 }
 
