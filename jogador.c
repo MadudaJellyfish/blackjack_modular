@@ -197,6 +197,9 @@ altera_returns altera_dinheiro(int valor)
     if (v_true_jogadores[0].dinheiro_total < 0)
         v_true_jogadores[0].dinheiro_total = 0; // Evita que o dinheiro fique negativo
 
+    if (v_true_jogadores[0].dinheiro_total > 999999)
+        v_true_jogadores[0].dinheiro_total = 999999; // Evita que o dinheiro fique acima do limite
+
     return ALTERA_DINHEIRO_ALT_CORR;
 }
 
