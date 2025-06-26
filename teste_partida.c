@@ -878,6 +878,7 @@ int teste_interface_define_aposta(void) {
 
     freopen("input_aposta.txt", "r", stdin);
     int ret = define_aposta(&aposta, 1000);
+    printf("\n");
     print_resultado("Aposta válida dentro do limite\n", ret == 0 && aposta == 100);
 
     remove("input_aposta.txt");
@@ -888,6 +889,16 @@ int teste_interface_rodada(void) {
     printf("\n--- Testando interface_rodada ---\n");
 
     Espelho_Jogador p, d;
+
+    p.dinheiro_total = 2500;
+    d.dinheiro_total = 0;
+
+    // Inicializa mãos dos jogadores como vazias
+    for (int i = 0; i < 11; i++) {
+        p.v_mao[i] = NULL;
+        d.v_mao[i] = NULL;
+    }
+
     inicializa_jogador(&p, &d);
     inicializa_baralho(NULL, 0);
 
@@ -917,10 +928,12 @@ int teste_interface_fim(void) {
 
     freopen("input_fim.txt", "r", stdin);
     int ret = interface_fim(2, 100, &continuar);
+    printf("\n");
     print_resultado("Vitória com aposta normal\n", ret == 0 && continuar == 1);
 
     freopen("input_fim.txt", "r", stdin);
     ret = interface_fim(0, 100, &continuar);
+    printf("\n");
     print_resultado("Empate\n", ret == 0 && continuar == 1);
 
     remove("input_fim.txt");
