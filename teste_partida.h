@@ -128,16 +128,77 @@ Casos Valorados:
 */
 
 void teste_inicializa_jogadores(void);
+/*
+Casos Abstratos:
+    1. Inicialização com ponteiros válidos
+    2. Inicialização com ponteiros nulos
+
+Casos Valorados:
+    1. Jogador com dinheiro total 2500 e dealer com 0
+    2. Ponteiro do jogador é NULL
+*/
 
 void teste_calcula_pontuacao(void);
+/*
+Casos Abstratos:
+    1. Jogador com mão vazia
+    2. Jogador inválido
+    3. Ponteiro de retorno de pontuação nulo
+
+Casos Valorados:
+    1. Valor nulo no ponteiro de pontuação
+    2. Jogador inválido (tipo 3)
+    3. Jogador 0 com mão vazia deve retornar pontuação 0
+*/
 
 void teste_adiciona_carta(void);
+/*
+Casos Abstratos:
+    1. Adicionar 1 ou 2 cartas
+    2. Adicionar quantidade inválida (>2)
+    3. Jogador inválido
+
+Casos Valorados:
+    1. Adicionar 2 cartas ao jogador 0
+    2. Adicionar 3 cartas deve retornar erro
+    3. Jogador 2 (inválido)
+*/
 
 void teste_limpa_mao(void);
+/*
+Casos Abstratos:
+    1. Jogador com mão preenchida
+    2. Jogador inválido
+
+Casos Valorados:
+    1. Limpar mão do jogador 0
+    2. Limpar mão do jogador 1
+    3. Jogador inválido (tipo 5)
+*/
 
 void teste_revela_cartas(void);
+/*
+Casos Abstratos:
+    1. Jogador com cartas não reveladas
+    2. Jogador inválido
+
+Casos Valorados:
+    1. Jogador 0 com uma carta não revelada passa a revelada
+    2. Jogador inválido (-1)
+*/
 
 void teste_altera_dinheiro(void);
+/*
+Casos Abstratos:
+    1. Alteração positiva
+    2. Alteração negativa
+    3. Valor fora do intervalo aceitável
+
+Casos Valorados:
+    1. Adicionar 500 ao jogador
+    2. Subtrair 1000 do jogador
+    3. Adicionar 1.000.000 (erro)
+*/
 
 void teste_free_jogador(void);
 /*
@@ -152,14 +213,67 @@ Casos Valorados:
 ///
 
 void teste_inicializa_baralho(void);
+/*
+Casos Abstratos:
+    1. Inicialização padrão de baralho com 52 cartas
+
+Casos Valorados:
+    1. Chamada com seed nula e baralho padrão
+*/
+
 
 void teste_obter_cartas_restantes(void);
+/*
+Casos Abstratos:
+    1. Baralho inicializado
+    2. Parâmetros inválidos
+
+Casos Valorados:
+    1. Obter cartas de baralho recém inicializado (52 cartas)
+    2. Chamar com vetor de cartas nulo
+    3. Chamar com vetor de quantidade nulo
+*/
 
 void teste_retira_cartas(void);
+/*
+Casos Abstratos:
+    1. Retirada de cartas de baralho com cartas
+    2. Retidada de mais cartas que existem no baralho
+    3. Retirada de quantidade inválida
+    4. Chamada com ponteiro de saída inválido
+    5. Retirada de um baralho vazio
+
+Casos Valorados:
+    1. Retirar 5 carta do baralho de 52 cartas
+    2. Tentar retirar 50 cartas de um baralho de 47
+    3. Tentar retirar -2 cartas
+    4. Chamar com vetor de saída nulo
+    5. Esvaziar o baralho e tentar retirar uma carta
+*/
+
 
 void teste_embaralha_cartas(void);
+/*
+Casos Abstratos:
+    1. Baralho com cartas
+    2. Baralho vazio
+
+Casos Valorados:
+    1. Embaralhar baralho com 52 cartas
+    2. Embaralhar baralho vazio
+*/
 
 void teste_baralho_vazio(void);
+/*
+Casos Abstratos:
+    1. Verificar se baralho está vazio
+    2. Baralho não inicializado
+
+Casos Valorados:
+    1. Verificar baralho inicializado como não vazio
+    2. Após esvaziar e deixar com 20 cartas (limite), verificar se função retorna que está vazio
+    3. Após deixar com 19 cartas, verificar se função retorna que está vazio
+*/
 
 void teste_libera_baralho(void);
 /*
