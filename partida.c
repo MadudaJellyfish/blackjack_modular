@@ -431,7 +431,7 @@ fim_cond_ret fim_de_rodada(int aposta, int* deseja_continuar, int* resume){
     if (!resume)
         return FIM_PARAM_RESUME_INVALIDO;
 
-    *resume = 1;
+    *resume = 0;
 
     resultado  = verifica_vencedor();
     if (resultado == 4)
