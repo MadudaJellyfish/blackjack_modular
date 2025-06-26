@@ -40,8 +40,7 @@ Condições de Acoplamento:
 
  - Assertivas de Saída:
    *escolha recebe 0 (novo jogo), 1 (continuar), ou 2 (sair).
-
-  */
+*/
 
 int menu_principal(int* escolha, int resume);
 
@@ -60,7 +59,7 @@ Acoplamento:
 
  - Retornos:
    0 se executado com sucesso;
-   -1 em caso de falha ao processar entrada.
+   -1 se tipo_jogador inválido, *jogada for NULL ou aposta < 0.
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
@@ -89,16 +88,17 @@ Acoplamento:
 
  - Retornos:
    0 se valor válido foi informado;
-   -1 se valor inválido ou entrada incorreta.
+   -1 se *aposta for NULL ou dinheiro_disponivel ≤ 0.
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
    *aposta deve ser um ponteiro válido.
-   dinheiro_disponivel ≥ 0.
+   dinheiro_disponivel ≥ 1.
 
  - Assertivas de Saída:
    *aposta contém valor ∈ [1, dinheiro_disponivel].
 */
+
 int define_aposta(int* aposta, int dinheiro_disponivel);
 
 /*
@@ -117,7 +117,7 @@ Acoplamento:
 
  - Retornos:
    0 se executado com sucesso;
-   -1 se entrada ou leitura inválida.
+   -1 se *deseja_continuar for NULL, resultado inválido ou aposta < 0.
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
@@ -128,6 +128,7 @@ Condições de Acoplamento:
  - Assertivas de Saída:
    *deseja_continuar ∈ {0, 1}.
 */
+
 int interface_fim(int resultado, int aposta, int* deseja_continuar);
 
 /*
@@ -146,6 +147,7 @@ Condições de Acoplamento:
  - Assertivas de Entrada: nenhuma.
  - Assertivas de Saída: mensagem “GAME OVER” exibida na tela.
 */
+
 int game_over(void);
 
 /*
@@ -168,6 +170,7 @@ Condições de Acoplamento:
  - Assertivas de Saída:
    As cartas reveladas são impressas corretamente com valor e naipe.
 */
+
 void imprime_cartas(int tipo_jogador);
 
 /*
@@ -182,7 +185,8 @@ Acoplamento:
    naipe: inteiro ∈ {0, 1, 2, 3}.
 
  - Retornos:
-   String correspondente ao naipe ("Copas", "Espadas", etc).
+   String correspondente ao naipe ("Copas", "Espadas", etc);
+   "desconhecido" se valor inválido.
 
 Condições de Acoplamento:
  - Assertivas de Entrada:
@@ -191,6 +195,7 @@ Condições de Acoplamento:
  - Assertivas de Saída:
    String válida correspondente ao naipe.
 */
+
 const char* naipe_to_string(int naipe);
 
 /*
@@ -202,7 +207,7 @@ Converter o valor numérico da carta para string ("A", "2"... "K").
 
 Acoplamento:
  - Parâmetros:
-   valor: inteiro ∈ [1, 13] (ou seja, de Ás a Rei)
+   valor: inteiro ∈ [1, 13].
 
  - Retornos:
    String correspondente ao valor da carta ("A", "2", ..., "10", "J", "Q", "K").
@@ -214,6 +219,7 @@ Condições de Acoplamento:
  - Assertivas de Saída:
    String válida correspondente ao valor.
 */
+
 const char* valor_to_string(int valor);
 
 #endif
