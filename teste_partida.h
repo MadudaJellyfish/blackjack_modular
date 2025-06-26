@@ -180,66 +180,83 @@ Testes do módulo INTERFACE
 int teste_interface_menu_principal(void);
 /*
 Casos Abstratos:
-    1. Escolha válida com jogo salvo.
-    2. Escolha inválida quando resume = 0.
+    1. Entrada válida com resume = 1.
+    2. Entrada inválida (resume = 0 e escolha = 1).
+    3. Parâmetro *escolha inválido (NULL).
+    4. Parâmetro resume inválido (≠ 0 e ≠ 1).
 
 Casos Valorados:
-    1. Entrada 0 ou 2 aceita com resume = 1.
-    2. Entrada 1 rejeitada com resume = 0.
+    - Escolhas 0 e 2 aceitas com resume = 1.
+    - Escolha 1 rejeitada com resume = 0.
+    - Retorna -1 para ponteiros inválidos ou resume fora do domínio.
 */
 
 int teste_interface_define_aposta(void);
 /*
 Casos Abstratos:
-    1. Entrada válida.
-    2. Valor acima do disponível.
+    1. Entrada de aposta válida dentro do limite.
+    2. Entrada inválida: valor acima do disponível.
+    3. Parâmetro *aposta inválido (NULL).
+    4. Parâmetro dinheiro_disponivel inválido (≤ 0).
 
 Casos Valorados:
-    1. Apostar 100 quando há 1000 disponíveis.
+    - Aposta de 100 com R$1000 disponíveis → sucesso.
+    - Entrada inválida (ex: aposta 0 ou maior que disponível) → rejeitada.
+    - Retorna -1 em caso de ponteiro nulo ou dinheiro_disponivel ≤ 0.
 */
 
 int teste_interface_rodada(void);
 /*
 Casos Abstratos:
-    1. Jogador escolhe 'comprar', 'stand' ou 'voltar'.
-    2. Dealer apenas exibe cartas.
+    1. Jogador escolhe: comprar, stand ou voltar.
+    2. Dealer apenas imprime cartas.
+    3. Parâmetro *jogada inválido (NULL).
+    4. Parâmetro tipo_jogador inválido (≠ 0 e ≠ 1).
+    5. Parâmetro aposta inválido (< 0).
 
 Casos Valorados:
-    1. Jogador insere 1, depois 0.
-    2. Dealer imprime cartas.
+    - Jogador escolhe 1 e depois 0.
+    - Dealer imprime pontuação e cartas.
+    - Retorna -1 para qualquer entrada inválida.
 */
 
 int teste_interface_fim(void);
 /*
 Casos Abstratos:
-    1. Resultado: vitória, derrota, blackjack, empate.
-    2. Desejo de continuar (0 ou 1).
+    1. Resultados: derrota, vitória, blackjack, empate.
+    2. Jogador decide continuar ou sair.
+    3. Parâmetro *deseja_continuar inválido (NULL).
+    4. Resultado fora do domínio (≠ 0,1,2,3).
+    5. Aposta inválida (< 0).
 
 Casos Valorados:
-    1. Jogador venceu com aposta normal.
-    2. Empate.
+    - Vitória com aposta → exibe prêmio.
+    - Empate → exibe mensagem.
+    - Retorna -1 se ponteiro for NULL ou valores fora do domínio.
 */
 
 int teste_interface_game_over(void);
 /*
 Casos Abstratos:
-    1. Exibição de mensagem.
+    1. Exibição da mensagem de fim do jogo.
 
 Casos Valorados:
-    1. Retorno de sucesso após mensagem.
+    - Apenas imprime "GAME OVER" e retorna 0.
+    - Não possui validações ou parâmetros.
 */
 
 int teste_interface_valor_naipe_to_string(void);
 /*
 Casos Abstratos:
-    1. Tradução de valores e naipes.
+    1. Conversão de valores válidos (1 a 13) em string.
+    2. Conversão de naipes válidos (0 a 3) em string.
+    3. Valores fora do domínio.
 
 Casos Valorados:
-    1. Valor 1 → "A"
-    2. Valor 12 → "Q"
-    3. Naipe 1 → "copas"
+    - valor = 1 → "A", 10 → "10", 12 → "Q".
+    - naipe = 1 → "copas".
+    - valor/naipe inválido → "desconhecido".
 */
-
 
 ///
 
